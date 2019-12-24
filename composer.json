@@ -1,0 +1,37 @@
+{
+  "name": "marioy47/wordpress-custom-directory",
+  "description": "Wordpress plugin to create a custom searcheable directory of items",
+  "type": "wordpress-plugin",
+  "authors": [
+    {
+      "name": "Mario Yepes",
+      "email": "marioy47@gmail.com"
+    }
+  ],
+  "minimum-stability": "alpha",
+  "require": {},
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "phpcompatibility/php-compatibility": "*",
+    "phpcompatibility/phpcompatibility-wp": "*",
+    "sirbrillig/phpcs-variable-analysis": "*",
+    "wp-coding-standards/wpcs": "*"
+  },
+  "scripts": {
+    "install-codestandards": [
+      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+    ],
+    "post-install-cmd": [
+      "@install-codestandards"
+    ],
+    "phpcs": "phpcs",
+    "phpcsi": "phpcs -i",
+    "phpcbf": "phpcbf",
+    "phpcs-wp": [
+      "phpcs --standard=WordPress,WordPress-Extra,WordPress-Docs,WordPress-Core"
+    ],
+    "phpcbf-wp": [
+      "phpcbf --standard=WordPress,WordPress-Extra,WordPress-Docs,WordPress-Core"
+    ]
+  }
+}
