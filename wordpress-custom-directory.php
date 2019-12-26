@@ -40,3 +40,7 @@ Settings\Plugin_List::factory()
 	->set_plugin_file( __FILE__ )
 	->set_plugin_slug( $plugin_slug )
 	->start();
+
+Settings\Settings_Page::factory()
+	->set_plugin_slug( $plugin_slug )
+	->start();
