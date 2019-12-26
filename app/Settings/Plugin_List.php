@@ -10,7 +10,7 @@ namespace WpCustomDir\Settings;
 /**
  * Changes the plugin list.
  */
-class PluginList {
+class Plugin_List {
 
 	/**
 	 * Singleton.

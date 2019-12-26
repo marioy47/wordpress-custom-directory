@@ -30,9 +30,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // For javascript and css file enqueueing.
 define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.0.0' );
+$plugin_slug = 'wordpress-custom-directory';
 
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Add links to the plugin list.
-Settings\PluginList::factory()->set_plugin_file( __FILE__ )->set_plugin_slug( 'wordpress-custom-directory' )->start();
+Settings\Plugin_List::factory()
+	->set_plugin_file( __FILE__ )
+	->set_plugin_slug( $plugin_slug )
+	->start();
