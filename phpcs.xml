@@ -14,7 +14,7 @@
   <rule ref="WordPress.WP.I18n">
     <properties>
       <!-- Change here your text-domain -->
-      <property name="text_domain" type="array" value="text-domain" />
+      <property name="text_domain" type="array" value="wp-custom-dir" />
     </properties>
 	</rule>
   <rule ref="Squiz.PHP.CommentedOutCode.Found">

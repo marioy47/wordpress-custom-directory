@@ -33,5 +33,10 @@
     "phpcbf-wp": [
       "phpcbf --standard=WordPress,WordPress-Extra,WordPress-Docs,WordPress-Core"
     ]
+  },
+  "autoload": {
+    "psr-4": {
+      "WpCustomDir\\": "app/"
+    }
   }
 }
