@@ -36,6 +36,9 @@ class Directory_Entry {
 	 */
 	public function start(): self {
 		add_action( 'init', array( $this, 'register_type' ) );
+		add_action( 'manage_' . $this->post_type . '_posts_columns', array( $this, 'add_columns' ) );
+		add_action( 'manage_' . $this->post_type . '_posts_custom_column', array( $this, 'add_column_content' ), 10, 2 );
+		add_action( 'restrict_manage_posts', array( $this, 'filter_posts' ), 10, 2 );
 		return $this;
 	}
 
@@ -77,6 +80,61 @@ class Directory_Entry {
 		register_post_type( $this->post_type, $args );
 	}
 
+	public function add_columns( $cols ) {
+		$cols['directory']  = __( 'Directory', 'wp-custom-dir' );
+		$cols['feat_image'] = __( 'Feat Img', 'wp-custom-dir' );
+		return $cols;
+	}
+
+	/**
+	 * Adds a new column header on the list of directory-entries.
+	 *
+	 * @param array $col Array of columns provided by  WordPress.
+	 * @param int   $post_id The ID of the current post (for each item of the list).
+	 * @return void
+	 */
+	public function add_column_content( $col, $post_id ) {
+		switch ( $col ) {
+			case 'directory':
+				echo get_the_term_list( $post_id, $this->taxonomy );
+				break;
+			case 'feat_image':
+				echo get_the_post_thumbnail( $post_id, array( '50', '50' ) );
+				break;
+		}
+	}
+
+	/**
+	 * Adds the content for each item on the direcotry-entries.
+	 *
+	 * @param string $post_type The name of the current post type we're listing.
+	 * @param string $which Value provided by WordPress.
+	 * @return void
+	 */
+	public function filter_posts( $post_type, $which ) {
+		if ( $this->post_type !== $post_type ) {
+			return;
+		}
+
+		$taxonomy = get_taxonomy( $this->taxonomy );
+
+		wp_dropdown_categories(
+			array(
+				'show_option_all' => __( "Show All {$taxonomy->label}", 'wp-custom-dir' ),
+				'taxonomy'        => $this->taxonomy,
+				'name'            => $this->taxonomy,
+				'orderby'         => 'name',
+				'selected'        => isset( $_REQUEST[ $this->taxonomy ] ) ? $_REQUEST[ $this->taxonomy ] : '',
+				'show_count'      => true, // Show number of post in parent term.
+				'hide_empty'      => false, // Don't show posts w/o terms.
+				'value_field'     => 'slug',
+				'hierarchical'    => true,
+			)
+		);
+	}
+
+
+
 	/**
 	 * Save the post type in a var for multiple uses.
 	 *
@@ -92,6 +150,24 @@ class Directory_Entry {
 	 */
 	public function set_post_type( $type ): self {
 		$this->post_type = $type;
+		return $this;
+	}
+
+	/**
+	 * Taxonomy name.
+	 *
+	 * @var string
+	 */
+	protected $taxonomy;
+
+	/**
+	 * Seetter for $this->taxonomy.
+	 *
+	 * @param string $tax new slug for the taxonomy.
+	 * @return self
+	 */
+	public function set_taxonomy( $tax ): self {
+		$this->taxonomy = $tax;
 		return $this;
 	}
 }

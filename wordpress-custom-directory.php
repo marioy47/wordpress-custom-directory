@@ -51,6 +51,7 @@ Settings\Settings_Page::factory()
 // Creates the post_type itself.
 Post_Types\Directory_Entry::factory()
 	->set_post_type( $post_type_name )
+	->set_taxonomy( $taxonomy_name )
 	->start();
 
 // Creates the taxonomy asigend to the post-type.
