@@ -60,3 +60,9 @@ Post_Types\Directory_Tax::factory()
 	->set_post_type( $post_type_name )
 	->set_taxonomy( $taxonomy_name )
 	->start();
+
+// Shortcoce for creating  a list of items.
+Shortcodes\Custom_Directory_List::factory()
+	->set_post_type( $post_type_name )
+	->set_taxonomy( $taxonomy_name )
+	->start();
