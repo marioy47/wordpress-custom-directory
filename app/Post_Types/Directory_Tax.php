@@ -1,7 +1,15 @@
 <?php
+/**
+ * Copyright Mario Yepes
+ *
+ * @package Wordpres_Custom_Directory
+ */
 
 namespace WpCustomDir\Post_Types;
 
+/**
+ * Creates the taxonomy for multiple directories.
+ */
 class Directory_Tax {
 	/**
 	 * Singleton.
@@ -37,12 +45,12 @@ class Directory_Tax {
 	 */
 	public function register_tax() {
 		$labels = array(
-			'name'          => __( 'Directories', 'custom-post-type-ui' ),
-			'singular_name' => __( 'Directory', 'custom-post-type-ui' ),
+			'name'          => __( 'Directories', 'wp-custom-dir' ),
+			'singular_name' => __( 'Directory', 'wp-custom-dir' ),
 		);
 
 		$args = array(
-			'label'                 => __( 'Directories', 'custom-post-type-ui' ),
+			'label'                 => __( 'Directories', 'wp-custom-dir' ),
 			'labels'                => $labels,
 			'public'                => true,
 			'publicly_queryable'    => true,

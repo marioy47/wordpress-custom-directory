@@ -46,15 +46,22 @@ class Directory_Entry {
 		return $this;
 	}
 
+	/**
+	 * Takes care of actually creating the new post type.
+	 *
+	 * The code was created with Custom Post Type UI.
+	 *
+	 * @return void
+	 */
 	public function register_type() {
 
 		$labels = array(
-			'name'          => __( 'Custom Directory Entries', 'custom-post-type-ui' ),
-			'singular_name' => __( 'Custom Directory Entry', 'custom-post-type-ui' ),
+			'name'          => __( 'Custom Directory Entries', 'wp-custom-dir' ),
+			'singular_name' => __( 'Custom Directory Entry', 'wp-custom-dir' ),
 		);
 
 		$args = array(
-			'label'                 => __( 'Custom Directory Entries', 'custom-post-type-ui' ),
+			'label'                 => __( 'Custom Directory Entries', 'wp-custom-dir' ),
 			'labels'                => $labels,
 			'description'           => '',
 			'public'                => true,
@@ -84,6 +91,12 @@ class Directory_Entry {
 		register_post_type( $this->post_type, $args );
 	}
 
+	/**
+	 * Add a new columns on the post list in the dashboard.
+	 *
+	 * @param array $cols The original list of columns provided by WordPress.
+	 * @return array
+	 */
 	public function add_columns( $cols ) {
 		$cols['directory']  = __( 'Directory', 'wp-custom-dir' );
 		$cols['feat_image'] = __( 'Feat Img', 'wp-custom-dir' );
@@ -124,7 +137,8 @@ class Directory_Entry {
 
 		wp_dropdown_categories(
 			array(
-				'show_option_all' => __( "Show All {$taxonomy->label}", 'wp-custom-dir' ),
+				// translators: Show All {taxonomy label}.
+				'show_option_all' => sprintf( __( 'Show All %s', 'wp-custom-dir' ), $taxonomy->label ),
 				'taxonomy'        => $this->taxonomy,
 				'name'            => $this->taxonomy,
 				'orderby'         => 'name',

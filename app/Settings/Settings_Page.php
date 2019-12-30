@@ -153,7 +153,7 @@ class Settings_Page {
 	 */
 	public function field_slug(): self {
 		$val = array_key_exists( 'slug', $this->options ) ? $this->options['slug'] : null;
-		echo '<input type="text" name="' . $this->options_name . '[slug]" value="' . esc_attr( $val ) . '" placeholder="custom-path">';
+		echo '<input type="text" name="' . esc_attr( $this->options_name ) . '[slug]" value="' . esc_attr( $val ) . '" placeholder="custom-path">';
 		return $this;
 	}
 
@@ -180,7 +180,8 @@ class Settings_Page {
 <h1>{{title}}</h1>
 <div class="content">{{content}}</div>
 EOP1;
-		echo '<textarea name="' . $this->options_name . '[tpl_single]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		// phpcs:ignore
+		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_single]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
 		return $this;
 	}
 
@@ -194,7 +195,8 @@ EOP1;
 		$placeholder = <<<EOP2
 <div class="left">{{title}}</div><div class="right">{{summary}}</div>
 EOP2;
-		echo '<textarea name="' . $this->options_name . '[tpl_list]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		// phpcs:ignore
+		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_list]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
 		return $this;
 	}
 
@@ -208,7 +210,8 @@ EOP2;
 		$placeholder = <<<EOP1
 <input name="title" placeholder="Title">
 EOP1;
-		echo '<textarea name="' . $this->options_name . '[tpl_search]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		// phpcs:ignore
+		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_search]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
 		return $this;
 	}
 
