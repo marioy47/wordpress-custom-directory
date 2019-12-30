@@ -38,6 +38,8 @@ class Settings_Page {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_fields' ) );
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enable_code_mirror' ) );
+
 		return $this;
 	}
 
@@ -181,7 +183,7 @@ class Settings_Page {
 <div class="content">{{content}}</div>
 EOP1;
 		// phpcs:ignore
-		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_single]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_single]" id="tpl-single" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
 		return $this;
 	}
 
@@ -196,7 +198,7 @@ EOP1;
 <div class="left">{{title}}</div><div class="right">{{summary}}</div>
 EOP2;
 		// phpcs:ignore
-		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_list]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_list]" id="tpl-list" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
 		return $this;
 	}
 
@@ -211,8 +213,18 @@ EOP2;
 <input name="title" placeholder="Title">
 EOP1;
 		// phpcs:ignore
-		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_search]" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_search]" id="tpl-search" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
 		return $this;
+	}
+
+	/**
+	 * Enqueues the code-mirror library and the script file that nenables it in the custom post type.
+	 *
+	 * @return void
+	 */
+	public function enable_code_mirror() {
+		wp_enqueue_code_editor( array( 'type' => 'text/html' ) );
+		wp_enqueue_script( 'wp-custom-dir', plugin_dir_url( $this->plugin_file ) . 'js/code-mirror.js', array(), WP_CUSTOM_DIRECTORY_VERSION, true );
 	}
 
 
@@ -233,6 +245,26 @@ EOP1;
 		$this->plugin_slug = $slug;
 		return $this;
 	}
+
+
+	/**
+	 * Absolute path the to initial plugin file.
+	 *
+	 * @var string
+	 */
+	protected $plugin_file = '';
+
+	/**
+	 * Setter for $this->plugin_file.
+	 *
+	 * @param string $file The path.
+	 * @return self
+	 */
+	public function set_plugin_file( $file ): self {
+		$this->plugin_file = $file;
+		return $this;
+	}
+
 
 	/**
 	 * The options will be saved in a single array.

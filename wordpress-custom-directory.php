@@ -45,6 +45,7 @@ Settings\Plugin_List::factory()
 
 // Create the settings page for custom-type manipulation.
 Settings\Settings_Page::factory()
+	->set_plugin_file( __FILE__ )
 	->set_plugin_slug( $plugin_slug )
 	->start();
 
