@@ -7,6 +7,9 @@
 
 namespace WpCustomDir\Post_Types;
 
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
+
 /**
  * Creates the post type directory_entry and its metaboxes.
  */
@@ -39,6 +42,7 @@ class Directory_Entry {
 		add_action( 'manage_' . $this->post_type . '_posts_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_' . $this->post_type . '_posts_custom_column', array( $this, 'add_column_content' ), 10, 2 );
 		add_action( 'restrict_manage_posts', array( $this, 'filter_posts' ), 10, 2 );
+		add_filter( 'the_content', array( $this, 'change_post_content' ) );
 		return $this;
 	}
 
@@ -133,6 +137,38 @@ class Directory_Entry {
 		);
 	}
 
+	/**
+	 * Applies the template to the content.
+	 *
+	 * @param string $content The content passed by WordPress.
+	 * @return string
+	 */
+	public function change_post_content( $content ) {
+		if ( get_post_type() !== $this->post_type ) {
+			return $content;
+		}
+
+		$options = get_option( 'wp_custom_dir', array() );
+
+		$loader = new ArrayLoader(
+			array(
+				'tpl_single.html' => array_key_exists( 'tpl_single', $options ) ? $options['tpl_single'] : '{{content}}',
+			)
+		);
+		$twig   = new Environment(
+			$loader,
+			array(
+				'autoescape' => false,
+			)
+		);
+
+		$params = array(
+			'content' => $content,
+			'title'   => get_the_title(),
+		);
+
+		return $twig->render( 'tpl_single.html', $params );
+	}
 
 
 	/**
@@ -148,7 +184,7 @@ class Directory_Entry {
 	 * @param string $type New name for the post-type.
 	 * @return self
 	 */
-	public function set_post_type( $type ): self {
+	public function set_post_type( $type ) : self {
 		$this->post_type = $type;
 		return $this;
 	}
