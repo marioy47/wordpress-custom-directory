@@ -39,6 +39,7 @@ class Custom_Directory_Search {
 	 */
 	public function start(): self {
 		add_shortcode( $this->shortcode_name, array( $this, 'shortcode' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		return $this;
 	}
 
@@ -62,11 +63,22 @@ class Custom_Directory_Search {
 			return __( 'The search form template is empty', 'wp-custom-dir' );
 		}
 
+		wp_enqueue_script( 'wp-custom-dir' );
+
 		$out  = '<form id="">';
 		$out .= $options['tpl_search'];
 		$out .= '</form>';
 
 		return $out;
+	}
+
+	/**
+	 * Adds the scripts required for the dynamic search of a directory.
+	 *
+	 * @return void
+	 */
+	public function enqueue_scripts() {
+		wp_register_script( 'wp-custom-dir', plugin_dir_url( $this->plugin_file ) . 'js/frontend.js', array(), WP_CUSTOM_DIRECTORY_VERSION, true );
 	}
 
 	/**
@@ -84,6 +96,24 @@ class Custom_Directory_Search {
 	 */
 	public function set_shortcode_name( $name ): self {
 		$this->shortcode_name = $name;
+		return $this;
+	}
+
+	/**
+	 * The complete path to the main plugin file.
+	 *
+	 * @var string
+	 */
+	protected $plugin_file;
+
+	/**
+	 * Setter for $this->plugin_file.
+	 *
+	 * @param string $file The path to the file.
+	 * @return self
+	 */
+	public function set_plugin_file( $file ): self {
+		$this->plugin_file = $file;
 		return $this;
 	}
 

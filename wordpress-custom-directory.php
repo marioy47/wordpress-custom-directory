@@ -72,4 +72,5 @@ Shortcodes\Custom_Directory_List::factory()
 // Shortcode for creating a search form for a directory.
 Shortcodes\Custom_Directory_Search::factory()
 	->set_shortcode_name( $shortcode_form_name )
+	->set_plugin_file( __FILE__ )
 	->start();
