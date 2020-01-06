@@ -39,7 +39,11 @@ class Custom_Directory_List {
 	 * @return self
 	 */
 	public function start(): self {
-		add_shortcode( 'custom-directory-list', array( $this, 'shortcode' ) );
+		add_shortcode( $this->shortcode_name, array( $this, 'shortcode' ) );
+
+		// Shortcodes Ultimate.
+		add_filter( 'su/data/shortcodes', array( $this, 'su_register' ) );
+		add_shortcode( get_option( 'su_option_prefix', 'su_' ) . $this->shortcode_name, array( $this, 'shorcode' ) );
 		return $this;
 	}
 
@@ -53,7 +57,7 @@ class Custom_Directory_List {
 		$atts = shortcode_atts(
 			array(
 				'directory' => '',
-				'id'        => uniqid( 'custom-directory-list' ),
+				'id'        => uniqid( $this->shortcode_name ),
 			),
 			$atts
 		);
@@ -106,6 +110,39 @@ class Custom_Directory_List {
 	}
 
 	/**
+	 * Registers the current shortcode in Shortcodes Ultimate.
+	 *
+	 * @param array $shortcodes The current array of shortcodes passed by SU.
+	 * @return array
+	 * @link https://docs.getshortcodes.com/article/45-how-to-add-custom-shortcodes
+	 */
+	public function su_register( $shortcodes ): array {
+		$shortcodes[ $this->shortcode_name ] = array(
+			'name'     => __( 'Custom Directory List', 'wp-custom-dir' ),
+			'type'     => 'single',
+			'group'    => 'content other',
+			'atts'     => array(
+				'directory' => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'Directory ID', 'wp-custom-dir' ),
+					'desc'    => __( 'The ID of the directory to list', 'wp-custom-dir' ),
+				),
+				'id'        => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'Custom CSS id', 'wp-custom-dir' ),
+					'desc'    => __( 'Allows you to specify the <ul> id for the list', 'wp-custom-dir' ),
+				),
+			),
+			'desc'     => __( 'Shows a list of the content for a directory', 'wp-custom-dir' ),
+			'icon'     => 'plus',
+			'function' => array( $this, 'shortcode' ),
+		);
+		return $shortcodes;
+	}
+
+	/**
 	 * Name of the post type for the directory items.
 	 *
 	 * @var string
@@ -138,6 +175,26 @@ class Custom_Directory_List {
 	 */
 	public function set_taxonomy( $tax ): self {
 		$this->taxonomy = $tax;
+		return $this;
+	}
+
+	/**
+	 * The name of the shortcode.
+	 *
+	 * Set it here since it will be used in several places.
+	 *
+	 * @var string
+	 */
+	protected $shortcode_name = 'custom-directory-list';
+
+	/**
+	 * Setter for $this->shortcode_name.
+	 *
+	 * @param string $name
+	 * @return self
+	 */
+	public function set_shortcode_name( $name ): self {
+		$this->shortcode_name = $name;
 		return $this;
 	}
 }
