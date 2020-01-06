@@ -69,12 +69,7 @@ class Custom_Directory_List {
 				'tpl_list.html' => array_key_exists( 'tpl_list', $options ) ? $options['tpl_list'] : '{{title}}',
 			)
 		);
-		$twig    = new Environment(
-			$loader,
-			array(
-				'autoescape' => false,
-			)
-		);
+		$twig    = new Environment( $loader, array( 'autoescape' => false ) );
 
 		// Build the query.
 		$query_params = array(

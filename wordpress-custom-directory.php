@@ -30,11 +30,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // For javascript and css file enqueueing.
 define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.0.0' );
-$plugin_slug        = 'wordpress-custom-directory';
-$post_type_name     = 'directory_entry';
-$taxonomy_name      = 'directory_tax';
-$shotcode_list_name = 'custom-directory-list';
-
+$plugin_slug         = 'wordpress-custom-directory';
+$post_type_name      = 'directory_entry';
+$taxonomy_name       = 'directory_tax';
+$shotcode_list_name  = 'custom-directory-list';
+$shortcode_form_name = 'custom-directory-search';
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -67,4 +67,9 @@ Shortcodes\Custom_Directory_List::factory()
 	->set_post_type( $post_type_name )
 	->set_taxonomy( $taxonomy_name )
 	->set_shortcode_name( $shotcode_list_name )
+	->start();
+
+// Shortcode for creating a search form for a directory.
+Shortcodes\Custom_Directory_Search::factory()
+	->set_shortcode_name( $shortcode_form_name )
 	->start();
