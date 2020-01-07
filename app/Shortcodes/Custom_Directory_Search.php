@@ -65,7 +65,8 @@ class Custom_Directory_Search {
 
 		wp_enqueue_script( 'wp-custom-dir' );
 
-		$out  = '<form id="">';
+		$out  = '<form id="' . $atts['id'] . '" class="custom-directory-search">';
+		$out .= '<input type="hidden" name="target-directory" value="' . $atts['directory'] . '" />';
 		$out .= $options['tpl_search'];
 		$out .= '</form>';
 

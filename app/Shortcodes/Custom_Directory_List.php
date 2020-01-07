@@ -56,20 +56,27 @@ class Custom_Directory_List {
 	public function shortcode( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'directory' => '',
-				'id'        => uniqid( $this->shortcode_name ),
+				'directory' => null,
+				'id'        => null,
+				'class'     => null,
 			),
 			$atts
 		);
+		if ( empty( $atts['id'] ) ) {
+			$atts['id'] = 'custom-directory-list-' . $atts['directory'];
+		}
 
 		// Build the template.
 		$options = get_option( 'wp_custom_dir', array() );
-		$loader  = new ArrayLoader(
+		if ( empty( $options['tpl_list'] ) ) {
+			return __( 'The template for the list if empty', 'wp-custom-dir' );
+		}
+		$loader = new ArrayLoader(
 			array(
 				'tpl_list.html' => array_key_exists( 'tpl_list', $options ) ? $options['tpl_list'] : '{{title}}',
 			)
 		);
-		$twig    = new Environment( $loader, array( 'autoescape' => false ) );
+		$twig   = new Environment( $loader, array( 'autoescape' => false ) );
 
 		// Build the query.
 		$query_params = array(
@@ -77,8 +84,8 @@ class Custom_Directory_List {
 			'tax_query' => array(
 				array(
 					'taxonomy' => $this->taxonomy,
-					'field'    => 'term_id',
-					'terms'    => 3,
+					'field'    => 'slug',
+					'terms'    => $atts['directory'],
 				),
 			),
 		);
@@ -90,9 +97,9 @@ class Custom_Directory_List {
 			$query->the_post();
 			$post_id = get_the_ID();
 			$params  = array(
-				'title'   => get_the_title(),
-				'excerpt' => get_the_excerpt(),
-				'author'  => get_the_author(),
+				'title'   => '<span class="search-item title">' . get_the_title() . '</span>',
+				'excerpt' => '<span class="search-item excerpt">' . get_the_excerpt() . '</span>',
+				'author'  => '<span class="search-item author">' . get_the_author() . '</span>',
 				'link'    => get_the_permalink( $post_id ),
 			);
 			$out    .= '<li class="directory-item">' . $twig->render( 'tpl_list.html', $params );
