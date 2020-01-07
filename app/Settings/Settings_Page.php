@@ -168,6 +168,16 @@ class Settings_Page {
 	 */
 	public function section_templates(): self {
 		esc_html_e( 'Placeholder description on how the templates work...', 'wp-custom-dir' );
+		// Initialize code morror for the template fields.
+		echo <<<EOJ
+<script type="text/javascript">
+	window.onload = function() {
+		wp.codeEditor.initialize(document.getElementById("tpl-single"), {});
+		wp.codeEditor.initialize(document.getElementById("tpl-list"), {});
+		wp.codeEditor.initialize(document.getElementById("tpl-search"), {});
+	}
+</script>
+EOJ;
 		return $this;
 	}
 
@@ -224,7 +234,7 @@ EOP1;
 	 */
 	public function enable_code_mirror() {
 		wp_enqueue_code_editor( array( 'type' => 'text/html' ) );
-		wp_enqueue_script( 'wp-custom-dir', plugin_dir_url( $this->plugin_file ) . 'js/code-mirror.js', array(), WP_CUSTOM_DIRECTORY_VERSION, true );
+		// wp_enqueue_script( 'wp-custom-dir', plugin_dir_url( $this->plugin_file ) . 'js/code-mirror.js', array(), WP_CUSTOM_DIRECTORY_VERSION, true );
 	}
 
 
