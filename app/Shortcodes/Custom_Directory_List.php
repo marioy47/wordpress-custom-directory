@@ -97,9 +97,9 @@ class Custom_Directory_List {
 			$query->the_post();
 			$post_id = get_the_ID();
 			$params  = array(
-				'title'   => '<span class="search-item title">' . get_the_title() . '</span>',
-				'excerpt' => '<span class="search-item excerpt">' . get_the_excerpt() . '</span>',
-				'author'  => '<span class="search-item author">' . get_the_author() . '</span>',
+				'title'   => '<span class="search-item" data-field="title">' . get_the_title() . '</span>',
+				'excerpt' => '<span class="search-item" data-field="excerpt">' . get_the_excerpt() . '</span>',
+				'author'  => '<span class="search-item" data-field="author">' . get_the_author() . '</span>',
 				'link'    => get_the_permalink( $post_id ),
 			);
 			$out    .= '<li class="directory-item">' . $twig->render( 'tpl_list.html', $params );

@@ -6,15 +6,16 @@ module.exports = {
 	},
 	output: {
 		filename: "[name].js",
-		path: path.join(__dirname, 'js')
+		path: path.resolve(__dirname, "js"),
 	},
+	devtool: process.env.NODE_ENV == 'development' ? 'eval-source-map' : false,
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				loader: "babel-loader"
-			}
-		]
+				loader: "babel-loader",
+			},
+		],
 	}
 }
