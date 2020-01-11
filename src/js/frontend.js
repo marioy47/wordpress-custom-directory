@@ -1,4 +1,4 @@
-import searchList from './search-list';
+import filterItems from './filterItems';
 
 (d => {
 	d.querySelectorAll('.custom-directory-search').forEach(form => {
@@ -21,20 +21,13 @@ import searchList from './search-list';
 		const formValues = {}
 		form.querySelectorAll('input, select').forEach(element => {
 			formValues[element.name] = ''; // Create an object with empty values.
-			console.log(element.type);
 
 			if ('text' === element.type) {
 				// Listen for keytypes and execute a search if user types.
 				element.addEventListener('keyup', ev => {
 					formValues[ev.target.name] = ev.target.value;
-					searchList(directoryItems, formValues);
+					filterItems(directoryItems, formValues);
 				}); // keyup
-			}
-			if ('select' === element.type) {
-				element.addEventListener('change', ev => {
-					formValues[ev.target.name] = ev.target.value;
-					searchList(directoryItems, formValues);
-				}); // input changed
 			}
 
 		}); // form[input,select]
