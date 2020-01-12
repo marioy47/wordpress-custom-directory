@@ -1,5 +1,9 @@
 
 const filterListItems = (listItems, formValues) => {
+	const regexps = {};
+	for (const key in formValues) {
+		regexps[key] = new RegExp(formValues[key].toLowerCase().trim().replace(/\s+/, ".+"), 'i');
+	}
 
 	// Loop trough each list item searching matches
 	listItems.forEach(item => {
@@ -7,11 +11,9 @@ const filterListItems = (listItems, formValues) => {
 		let showItem = true;
 
 		// Loop for each form item looking for matches in the item.
-		for (const key in formValues) {
+		for (const key in regexps) {
 			if ('undefined' == item.searchFields[key]) continue;
-			const searchFor = new RegExp(formValues[key].toLowerCase().trim().replace(/\s+/, ".+"), 'i');
-			const searchIn = item.searchFields[key].toLowerCase();
-			if (!searchFor.test(searchIn)) {
+			if (!regexps[key].test(item.searchFields[key])) {
 				showItem = showItem && false;
 			}
 		}

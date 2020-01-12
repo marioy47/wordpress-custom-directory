@@ -3,15 +3,15 @@ import filterItems from './filterItems';
 (d => {
 	d.querySelectorAll('.custom-directory-search').forEach(form => {
 
-		// Save all the children of the target <ul> in an array.
+		// We get the list ID from the dataset.target. then we extract all of the items of the list into an array.
 		const directoryItems = [];
-		d.getElementById(form.dataset.target).querySelectorAll('.directory-item').forEach(item => {
+		d.getElementById(form.dataset.target).querySelectorAll('.directory-item').forEach(listItem => {
 			const searchFields = {};
-			item.querySelectorAll('.search-item').forEach(span => {
+			listItem.querySelectorAll('.search-item').forEach(span => {
 				searchFields[span.dataset.field] = span.innerHTML;
 			});
-			item['searchFields'] = searchFields;
-			directoryItems.push(item);
+			listItem['searchFields'] = searchFields;
+			directoryItems.push(listItem);
 		});
 
 		// If there is no list, then exit.
