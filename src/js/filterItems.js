@@ -1,5 +1,7 @@
 
 const filterListItems = (listItems, formValues) => {
+
+	// Precompile the regular expresions.
 	const regexps = {};
 	for (const key in formValues) {
 		regexps[key] = new RegExp(formValues[key].toLowerCase().trim().replace(/\s+/, ".+"), 'i');

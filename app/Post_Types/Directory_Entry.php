@@ -60,6 +60,8 @@ class Directory_Entry {
 			'singular_name' => __( 'Custom Directory Entry', 'wp-custom-dir' ),
 		);
 
+		$options = get_option( 'wp_custom_dir', array() );
+
 		$args = array(
 			'label'                 => __( 'Custom Directory Entries', 'wp-custom-dir' ),
 			'labels'                => $labels,
@@ -80,7 +82,7 @@ class Directory_Entry {
 			'map_meta_cap'          => true,
 			'hierarchical'          => false,
 			'rewrite'               => array(
-				'slug'       => 'directory-entry',
+				'slug'       => ! empty( $options['slug'] ) ? $options['slug'] : 'directory-entry',
 				'with_front' => true,
 			),
 			'query_var'             => true,
@@ -88,7 +90,7 @@ class Directory_Entry {
 			'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions', 'author' ),
 		);
 
-		register_post_type( $this->post_type, $args );
+			register_post_type( $this->post_type, $args );
 	}
 
 	/**
