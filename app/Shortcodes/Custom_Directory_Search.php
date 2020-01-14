@@ -46,10 +46,11 @@ class Custom_Directory_Search {
 	/**
 	 * Creates the shortcode.
 	 *
-	 * @param array $atts The attributes for the shortcode passed by WordPress.
+	 * @param array  $atts The attributes for the shortcode passed by WordPress.
+	 * @param string $template If content is passed in the shortcode, it will be assumed to be the template to use.
 	 * @return string
 	 */
-	public function shortcode( $atts, $content ): string {
+	public function shortcode( $atts, $template ): string {
 		$atts = shortcode_atts(
 			array(
 				'directory' => null,
@@ -66,7 +67,7 @@ class Custom_Directory_Search {
 		wp_enqueue_script( 'wp-custom-dir' );
 
 		$out  = '<form id="' . $atts['id'] . '" class="custom-directory-search" data-target="custom-directory-list-' . $atts['directory'] . '">';
-		$out .= ! empty( $content ) ? $content : $options['tpl_search'];
+		$out .= ! empty( $template ) ? $template : $options['tpl_search'];
 		$out .= '</form>';
 
 		return $out;

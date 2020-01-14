@@ -35,6 +35,8 @@ $post_type_name      = 'directory_entry';
 $taxonomy_name       = 'directory_tax';
 $shotcode_list_name  = 'custom-directory-list';
 $shortcode_form_name = 'custom-directory-search';
+$shortcode_item_name = 'custom-directory-item';
+$query_var_prefix    = 'custom-dir-';
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -73,4 +75,10 @@ Shortcodes\Custom_Directory_List::factory()
 Shortcodes\Custom_Directory_Search::factory()
 	->set_shortcode_name( $shortcode_form_name )
 	->set_plugin_file( __FILE__ )
+	->start();
+
+Shortcodes\Custom_Directory_Item::factory()
+	->set_shortcode_name( $shortcode_item_name )
+	->set_query_vars_prefix( $query_var_prefix )
+	->set_post_type( $post_type_name )
 	->start();

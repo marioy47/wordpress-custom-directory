@@ -50,11 +50,11 @@ class Custom_Directory_List {
 	/**
 	 * Creates the shortcode.
 	 *
-	 * @param array $atts The shortcode arguementes ass passed by WordPress.
-	 * @param string $content The template provided by wordpress.
+	 * @param array  $atts The shortcode arguementes ass passed by WordPress.
+	 * @param string $template The template provided by WordPress.
 	 * @return string
 	 */
-	public function shortcode( $atts, $content ) {
+	public function shortcode( $atts, $template ) {
 		$atts = shortcode_atts(
 			array(
 				'directory' => null,
@@ -69,11 +69,11 @@ class Custom_Directory_List {
 
 		// Build the template.
 		$options = get_option( 'wp_custom_dir', array() );
-		if ( empty( $options['tpl_list'] ) && empty( $content ) ) {
+		if ( empty( $options['tpl_list'] ) && empty( $template ) ) {
 			return __( 'The template for the list if empty', 'wp-custom-dir' );
 		}
-		if ( ! empty( $content ) ) {
-			$options['tpl_list'] = $content;
+		if ( ! empty( $template ) ) {
+			$options['tpl_list'] = $template;
 		}
 
 		$loader = new ArrayLoader(
@@ -197,7 +197,7 @@ class Custom_Directory_List {
 	/**
 	 * Setter for $this->shortcode_name.
 	 *
-	 * @param string $name
+	 * @param string $name The new name for the shortcode.
 	 * @return self
 	 */
 	public function set_shortcode_name( $name ): self {
