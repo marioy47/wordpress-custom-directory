@@ -70,6 +70,8 @@ class Settings_Page {
 		?>
 	<div class="wrap">
 	<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
+	<span class="help-links"><a target="_blank" href="options-general.php?page=wordpress-custom-directory-help"><?php esc_html_e( 'Help', 'wp-custom-dir' ) ?></a></span>
+	| <span class="help-links"><a target="_blank" href="https://twig.symfony.com/doc/3.x/templates.html"><?php esc_html_e( 'Twig Template System', 'wp-custom-dir' ) ?></a></span>
 	<form action="options.php" method="post">
 		<?php
 		settings_fields( $this->plugin_slug );

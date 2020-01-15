@@ -1,0 +1,3 @@
+# Wordpress Custom Directory Help
+
+This is the placeholder help...

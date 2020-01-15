@@ -2,5 +2,13 @@
   "[php]": {
     "editor.defaultFormatter": "wongjn.php-sniffer"
   },
-  "phpSniffer.executablesFolder": "vendor/bin/"
+  "phpSniffer.executablesFolder": "vendor/bin/",
+  "spellright.language": [
+    "en"
+  ],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext"
+  ]
 }
