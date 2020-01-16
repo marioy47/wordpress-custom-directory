@@ -38,11 +38,28 @@ class Directory_Entry {
 	 * @return self
 	 */
 	public function start(): self {
+
+		// Register type.
 		add_action( 'init', array( $this, 'register_type' ) );
+
+		// Change the display of the list of post (list of items) in the dashboard.
 		add_action( 'manage_' . $this->post_type . '_posts_columns', array( $this, 'add_columns' ) );
 		add_action( 'manage_' . $this->post_type . '_posts_custom_column', array( $this, 'add_column_content' ), 10, 2 );
 		add_action( 'restrict_manage_posts', array( $this, 'filter_posts' ), 10, 2 );
+
+		// Change the output in the frontend for a single item (not the shortcodes).
 		add_filter( 'the_content', array( $this, 'change_post_content' ) );
+
+		$this->options = get_option( 'wp_custom_dir', array() );
+
+		if ( array_key_exists( 'remove_title', $this->options ) && $this->options['remove_title'] ) {
+			add_action( 'wp_head', array( $this, 'remove_title' ) );
+		}
+
+		if ( array_key_exists( 'change_layout', $this->options ) && $this->options['change_layout'] ) {
+			add_action( 'wp_head', array( $this, 'change_layout' ) );
+		}
+
 		return $this;
 	}
 
@@ -55,10 +72,8 @@ class Directory_Entry {
 	 */
 	public function register_type() {
 
-		$options = get_option( 'wp_custom_dir', array() );
-
 		$labels = array(
-			'name'          => ! empty( $options['sidebar_name'] ) ? $options['sidebar_name'] : __( 'Custom Directory Entries', 'wp-custom-dir' ),
+			'name'          => ! empty( $this->options['sidebar_name'] ) ? $this->options['sidebar_name'] : __( 'Custom Directory Entries', 'wp-custom-dir' ),
 			'singular_name' => __( 'Custom Directory Entry', 'wp-custom-dir' ),
 		);
 
@@ -82,7 +97,7 @@ class Directory_Entry {
 			'map_meta_cap'          => true,
 			'hierarchical'          => false,
 			'rewrite'               => array(
-				'slug'       => ! empty( $options['slug'] ) ? $options['slug'] : 'directory-entry',
+				'slug'       => ! empty( $this->options['slug'] ) ? $this->options['slug'] : 'directory-entry',
 				'with_front' => true,
 			),
 			'query_var'             => true,
@@ -165,11 +180,9 @@ class Directory_Entry {
 			return $content;
 		}
 
-		$options = get_option( 'wp_custom_dir', array() );
-
 		$loader = new ArrayLoader(
 			array(
-				'tpl_single.html' => array_key_exists( 'tpl_single', $options ) ? $options['tpl_single'] : '{{content}}',
+				'tpl_single.html' => array_key_exists( 'tpl_single', $this->options ) ? $this->options['tpl_single'] : '{{content}}',
 			)
 		);
 		$twig   = new Environment(
@@ -186,6 +199,37 @@ class Directory_Entry {
 
 		return $twig->render( 'tpl_single.html', $params );
 	}
+
+	/**
+	 * Removes the title if in the settings is checked.
+	 *
+	 * Works only on genesis templates for now.
+	 *
+	 * @return self
+	 */
+	public function remove_title(): self {
+		// remove title.
+		remove_action( 'genesis_post_title', 'genesis_do_post_title' );
+		remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
+
+		// Remove header markup.
+		remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
+		remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
+
+		// remove entry meta.
+		remove_action( 'genesis_entry_header', 'genesis_post_info', 12 );
+
+		return $this;
+	}
+
+	public function change_layout(): self {
+		$layout = $this->options['change_layout'];
+		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_' . $layout );
+		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_' . $layout );
+
+		return $this;
+	}
+
 
 
 	/**
@@ -223,6 +267,13 @@ class Directory_Entry {
 		$this->taxonomy = $tax;
 		return $this;
 	}
+
+	/**
+	 * The settings values since we need them in several places.
+	 *
+	 * @var array
+	 */
+	protected $options = array();
 }
 
 

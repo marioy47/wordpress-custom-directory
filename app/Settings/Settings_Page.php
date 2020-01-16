@@ -114,6 +114,20 @@ class Settings_Page {
 			$this->plugin_slug,
 			$current_section
 		);
+		add_settings_field(
+			'remove-title',
+			__( 'Remove the title of the single item page ?', 'wp-custom-dir' ),
+			array( $this, 'field_remove_title' ),
+			$this->plugin_slug,
+			$current_section
+		);
+		add_settings_field(
+			'change-layout',
+			__( 'Change the single item page layout', 'wp-custom-dir' ),
+			array( $this, 'field_change_layout' ),
+			$this->plugin_slug,
+			$current_section
+		);
 
 		// Templates.
 		$current_section = 'templates';
@@ -178,6 +192,30 @@ class Settings_Page {
 		echo '<input type="text" name="' . esc_attr( $this->options_name ) . '[sidebar_name]" value="' . esc_attr( $val ) . '" placeholder="Custom Directory Entries"  />';
 		echo '<p class="">' . esc_html__( 'Here you can change the entry name on the admin sidebar', 'wp-custom-dir' ) . '</p>';
 		return $this;
+	}
+
+	/**
+	 * Creates the "remove title" checkbox field.
+	 *
+	 * @return self
+	 */
+	public function field_remove_title(): self {
+		$val = array_key_exists( 'remove_title', $this->options ) ? $this->options['remove_title'] : null;
+		echo '<input type="checkbox" name="' . esc_attr( $this->options_name ) . '[remove_title]" value="1" ' . ( $val ? 'checked' : '' ) . ' />';
+
+		return $this;
+	}
+
+	public function field_change_layout(): self {
+		$val = array_key_exists( 'change_layout', $this->options ) ? $this->options['change_layout'] : null;
+		echo '<select name="' . esc_attr( $this->options_name ) . '[change_layout]">';
+		echo '<option value="">' . esc_html__( 'Default site layout', 'wp-custom-dir' ) . '</option>';
+		echo '<option value="content_sidebar" ' . selected( 'content_sidebar', $val ) . '>' . esc_html__( 'Use sidebar', 'wp-custom-dir' ) . '</option>';
+		echo '<option value="full_width_content" ' . selected( 'full_width_content', $val ) . '>' . esc_html__( 'Full width', 'wp-custom-dir' ) . '</option>';
+		echo '</select>';
+
+		return $this;
+
 	}
 
 	/**
