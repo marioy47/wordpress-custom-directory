@@ -206,6 +206,11 @@ class Settings_Page {
 		return $this;
 	}
 
+	/**
+	 * Creates the "changhe_layout" sleect.
+	 *
+	 * @return self
+	 */
 	public function field_change_layout(): self {
 		$val = array_key_exists( 'change_layout', $this->options ) ? $this->options['change_layout'] : null;
 		echo '<select name="' . esc_attr( $this->options_name ) . '[change_layout]">';

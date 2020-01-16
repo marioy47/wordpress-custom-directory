@@ -222,6 +222,11 @@ class Directory_Entry {
 		return $this;
 	}
 
+	/**
+	 * Changes the layout if is set.
+	 *
+	 * @return self
+	 */
 	public function change_layout(): self {
 		$layout = $this->options['change_layout'];
 		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_' . $layout );
