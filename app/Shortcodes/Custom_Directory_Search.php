@@ -40,6 +40,11 @@ class Custom_Directory_Search {
 	public function start(): self {
 		add_shortcode( $this->shortcode_name, array( $this, 'shortcode' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
+		// Shortcodes Ultimate.
+		add_filter( 'su/data/shortcodes', array( $this, 'su_register' ) );
+		add_shortcode( get_option( 'su_option_prefix', 'su_' ) . $this->shortcode_name, array( $this, 'shorcode' ) );
+
 		return $this;
 	}
 
@@ -80,6 +85,41 @@ class Custom_Directory_Search {
 	 */
 	public function enqueue_scripts() {
 		wp_register_script( 'wp-custom-dir', plugin_dir_url( $this->plugin_file ) . 'js/frontend.js', array(), WP_CUSTOM_DIRECTORY_VERSION, true );
+	}
+
+	/**
+	 * Registers the current shortcode in Shortcodes Ultimate.
+	 *
+	 * @param array $shortcodes The current array of shortcodes passed by SU.
+	 * @return array
+	 * @link https://docs.getshortcodes.com/article/45-how-to-add-custom-shortcodes
+	 */
+	function su_register( $shortcodes ): array {
+		$shortcodes[ $this->shortcode_name ] = array(
+			'name'     => __( 'Custom Directory Search Form', 'wp-custom-dir' ),
+			'type'     => 'wrap',
+			'group'    => 'other',
+			'atts'     => array(
+				'directory' => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'Directory', 'wp-custom-dir' ),
+					'desc'    => __( 'Provide the ID or slug for the custom directory you want to search', 'wp-custom-dir' ),
+				),
+				'id'        => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'Form ID', 'wp-custom-dir' ),
+					'desc'    => __( 'You can provide an optional ID for this form', 'wp-custom-dir' ),
+				),
+			),
+			'content'  => '',
+			'desc'     => __( 'Creates a form for searching the custom directory. If you provide "content" it will be used as the form content, otherwise the template in "Settings > WP custom dir" will be used as content.', 'wp-custom-dir' ),
+			'icon'     => 'dot-circle-o',
+			'function' => array( $this, 'shortcode' ),
+		);
+
+		return $shortcodes;
 	}
 
 	/**

@@ -67,20 +67,18 @@ class Custom_Directory_List {
 			$atts['id'] = 'custom-directory-list-' . $atts['directory'];
 		}
 
-		// Build the template.
-		$options = get_option( 'wp_custom_dir', array() );
-		if ( empty( $options['tpl_list'] ) && empty( $template ) ) {
-			return __( 'The template for the list if empty', 'wp-custom-dir' );
-		}
-		if ( ! empty( $template ) ) {
-			$options['tpl_list'] = $template;
+		// Get the template from options if none provided.
+		if ( empty( $template ) ) {
+			$options  = get_option( 'wp_custom_dir', array() );
+			$template = array_key_exists( 'tpl_list', $options ) ? $options['tpl_list'] : '';
 		}
 
-		$loader = new ArrayLoader(
-			array(
-				'tpl_list.html' => array_key_exists( 'tpl_list', $options ) ? $options['tpl_list'] : '{{title}}',
-			)
-		);
+		// If still empty, notify the user and exit.
+		if ( empty( $template ) ) {
+			return __( 'The template for the list if empty', 'wp-custom-dir' );
+		}
+
+		$loader = new ArrayLoader( array( 'tpl_list.html' => $template ) );
 		$twig   = new Environment( $loader, array( 'autoescape' => false ) );
 
 		// Build the query.
@@ -126,7 +124,7 @@ class Custom_Directory_List {
 	public function su_register( $shortcodes ): array {
 		$shortcodes[ $this->shortcode_name ] = array(
 			'name'     => __( 'Custom Directory List', 'wp-custom-dir' ),
-			'type'     => 'single',
+			'type'     => 'wrap',
 			'group'    => 'content other',
 			'atts'     => array(
 				'directory' => array(
@@ -142,8 +140,8 @@ class Custom_Directory_List {
 					'desc'    => __( 'Allows you to specify the <ul> id for the list', 'wp-custom-dir' ),
 				),
 			),
-			'desc'     => __( 'Shows a list of the content for a directory', 'wp-custom-dir' ),
-			'icon'     => 'plus',
+			'desc'     => __( 'Shows a list of the content for a directory. if you provide "content", it will be used as the template for each directory item.', 'wp-custom-dir' ),
+			'icon'     => 'sitemap',
 			'function' => array( $this, 'shortcode' ),
 		);
 		return $shortcodes;

@@ -38,6 +38,11 @@ class Custom_Directory_Item {
 	public function start(): self {
 		add_filter( 'query_vars', array( $this, 'register_query_vars' ) );
 		add_shortcode( $this->shortcode_name, array( $this, 'shortcode' ) );
+
+		// Shortcodes ultimate.
+		add_filter( 'su/data/shortcodes', array( $this, 'su_register' ) );
+		add_shortcode( get_option( 'su_option_prefix', 'su_' ) . $this->shortcode_name, array( $this, 'shorcode' ) );
+
 		return $this;
 	}
 
@@ -103,6 +108,41 @@ class Custom_Directory_Item {
 		);
 
 		return $twig->render( 'tpl_single.html', $params );
+	}
+
+	/**
+	 * Registeres and configures the shortcode with ShortcodesUlitimate.
+	 *
+	 * @param array $shortcodes The array of shortcodes to be modified.
+	 * @return array
+	 * @link https://docs.getshortcodes.com/article/45-how-to-add-custom-shortcodes
+	 */
+	public function su_register( $shortcodes ): array {
+		$shortcodes[ $this->shortcode_name ] = array(
+			'name'     => __( 'Custom Directory Item', 'wp-custom-dir' ),
+			'type'     => 'wrap',
+			'group'    => 'other',
+			'atts'     => array(
+				'item' => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'Item ID', 'wp-custom-dir' ),
+					'desc'    => __( 'ID for the item you want to display', 'wp-custom-dir' ),
+				),
+				'slug' => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'Slug', 'wp-custom-dir' ),
+					'desc'    => __( 'URL slug for the item content you want to display', 'wp-custom-dir' ),
+				),
+			),
+			'content'  => '',
+			'desc'     => __( 'Adds an item from the directory into the current page. If you provide "content", that will be used as the template. If you dont provide the "slug" or the "item", then they will be extracted from the URL parammeters (mi-site.com/path/?item=34', 'wp-custom-dir' ),
+			'icon'     => 'arrow-circle-o-right',
+			'function' => array( $this, 'shortcode' ),
+		);
+
+		return $shortcodes;
 	}
 
 	/**
