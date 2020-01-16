@@ -55,12 +55,12 @@ class Directory_Entry {
 	 */
 	public function register_type() {
 
+		$options = get_option( 'wp_custom_dir', array() );
+
 		$labels = array(
-			'name'          => __( 'Custom Directory Entries', 'wp-custom-dir' ),
+			'name'          => ! empty( $options['sidebar_name'] ) ? $options['sidebar_name'] : __( 'Custom Directory Entries', 'wp-custom-dir' ),
 			'singular_name' => __( 'Custom Directory Entry', 'wp-custom-dir' ),
 		);
-
-		$options = get_option( 'wp_custom_dir', array() );
 
 		$args = array(
 			'label'                 => __( 'Custom Directory Entries', 'wp-custom-dir' ),
@@ -86,7 +86,7 @@ class Directory_Entry {
 				'with_front' => true,
 			),
 			'query_var'             => true,
-			'menu_icon'             => 'dashicons-tide',
+			'menu_icon'             => 'dashicons-networking',
 			'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions', 'author' ),
 		);
 

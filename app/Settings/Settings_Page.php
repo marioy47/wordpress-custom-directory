@@ -70,8 +70,8 @@ class Settings_Page {
 		?>
 	<div class="wrap">
 	<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
-	<span class="help-links"><a target="_blank" href="options-general.php?page=wordpress-custom-directory-help"><?php esc_html_e( 'Help', 'wp-custom-dir' ) ?></a></span>
-	| <span class="help-links"><a target="_blank" href="https://twig.symfony.com/doc/3.x/templates.html"><?php esc_html_e( 'Twig Template System', 'wp-custom-dir' ) ?></a></span>
+	<span class="help-links"><a target="_blank" href="options-general.php?page=wordpress-custom-directory-help"><?php esc_html_e( 'Help', 'wp-custom-dir' ); ?></a></span>
+	| <span class="help-links"><a target="_blank" href="https://twig.symfony.com/doc/3.x/templates.html"><?php esc_html_e( 'Twig Template System', 'wp-custom-dir' ); ?></a></span>
 	<form action="options.php" method="post">
 		<?php
 		settings_fields( $this->plugin_slug );
@@ -104,6 +104,13 @@ class Settings_Page {
 			'slug',
 			__( 'Choose an slug or base path for the directory items', 'wp-custom-dir' ),
 			array( $this, 'field_slug' ),
+			$this->plugin_slug,
+			$current_section
+		);
+		add_settings_field(
+			'sidebar-name',
+			__( 'Change the sidebar link name', 'wp-custom-dir' ),
+			array( $this, 'field_sidebar_name' ),
 			$this->plugin_slug,
 			$current_section
 		);
@@ -158,6 +165,18 @@ class Settings_Page {
 	public function field_slug(): self {
 		$val = array_key_exists( 'slug', $this->options ) ? $this->options['slug'] : null;
 		echo '<input type="text" name="' . esc_attr( $this->options_name ) . '[slug]" value="' . esc_attr( $val ) . '" placeholder="custom-path">';
+		return $this;
+	}
+
+	/**
+	 * Creates the "change sidebar name" field
+	 *
+	 * @return self
+	 */
+	public function field_sidebar_name(): self {
+		$val = array_key_exists( 'sidebar_name', $this->options ) ? $this->options['sidebar_name'] : null;
+		echo '<input type="text" name="' . esc_attr( $this->options_name ) . '[sidebar_name]" value="' . esc_attr( $val ) . '" placeholder="Custom Directory Entries"  />';
+		echo '<p class="">' . esc_html__( 'Here you can change the entry name on the admin sidebar', 'wp-custom-dir' ) . '</p>';
 		return $this;
 	}
 
