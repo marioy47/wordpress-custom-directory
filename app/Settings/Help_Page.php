@@ -4,6 +4,7 @@
  *
  * @package Wordpress_Custom_Directory
  */
+
 namespace WpCustomDir\Settings;
 
 use Michelf\MarkdownExtra;
@@ -30,6 +31,11 @@ class Help_Page {
 		return isset( $obj ) ? $obj : $obj = new self();
 	}
 
+	/**
+	 * Executes the add_action() and add_filter() functions.
+	 *
+	 * @return self
+	 */
 	public function start(): self {
 		add_action( 'admin_menu', array( $this, 'add_page' ) );
 		return $this;

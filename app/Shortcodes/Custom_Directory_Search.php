@@ -94,7 +94,7 @@ class Custom_Directory_Search {
 	 * @return array
 	 * @link https://docs.getshortcodes.com/article/45-how-to-add-custom-shortcodes
 	 */
-	function su_register( $shortcodes ): array {
+	public function su_register( $shortcodes ): array {
 		$shortcodes[ $this->shortcode_name ] = array(
 			'name'     => __( 'Custom Directory Search Form', 'wp-custom-dir' ),
 			'type'     => 'wrap',

@@ -144,6 +144,7 @@ class Directory_Entry {
 				'taxonomy'        => $this->taxonomy,
 				'name'            => $this->taxonomy,
 				'orderby'         => 'name',
+				// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 				'selected'        => isset( $_REQUEST[ $this->taxonomy ] ) ? $_REQUEST[ $this->taxonomy ] : '',
 				'show_count'      => true, // Show number of post in parent term.
 				'hide_empty'      => false, // Don't show posts w/o terms.
