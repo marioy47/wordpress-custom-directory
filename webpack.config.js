@@ -17,5 +17,6 @@ module.exports = {
 				loader: "babel-loader",
 			},
 		],
-	}
+	},
+	mode: process.env.NODE_ENV == 'production' ? 'production' : 'development'
 }
