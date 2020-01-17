@@ -1,5 +1,5 @@
 import filterItems from './filterItems';
-
+import debounce from './debounce';
 (d => {
 	d.querySelectorAll('.custom-directory-search').forEach(form => {
 
@@ -24,15 +24,13 @@ import filterItems from './filterItems';
 
 			if ('text' === element.type) {
 				// Listen for keytypes and execute a search if user types.
-				element.addEventListener('keyup', ev => {
+				element.addEventListener('keyup', debounce(ev => {
 					formValues[ev.target.name] = ev.target.value;
 					filterItems(directoryItems, formValues);
-				}); // keyup
+				}, 300)); // keyup
 			}
 
 		}); // form[input,select]
 
 	});
-
-
 })(document);
