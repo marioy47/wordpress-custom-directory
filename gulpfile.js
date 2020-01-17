@@ -18,7 +18,7 @@ function compress() {
 		'vendor/**',
 		'PLUGIN_HELP.md',
 		'wordpress-custom-directory.php'
-	], { base: '.' })
+	], { base: '../' })
 		.pipe(zip('wordpress-custom-directory.zip'))
 		.pipe(gulp.dest('./'))
 }
@@ -40,6 +40,7 @@ function clean() {
 }
 
 exports.scripts = scripts;
+exports.zip = compress
 exports.build = gulp.series(clean, scripts, php);
 exports.compress = gulp.series(scripts, php, compress);
 exports.clean = clean;
