@@ -101,11 +101,20 @@ class Custom_Directory_Item {
 		$loader = new ArrayLoader( array( 'tpl_single.html' => $template ) );
 		$twig   = new Environment( $loader, array( 'autoescape' => false ) );
 
+		// TODO: Move this to a central lib since its the same as the render post function.
 		$params = array(
 			'content' => $post->post_content,
 			'title'   => $post->post_title,
+			'excerpt' => get_the_excerpt( $post->ID ),
+			'link'    => get_the_permalink( $post->ID ),
 			'image'   => get_the_post_thumbnail_url( $post->ID ),
 		);
+		if ( function_exists( 'get_fields' ) ) {
+			$fields = (array) get_fields( get_the_ID() );
+			foreach ( $fields as $name => $value ) {
+				$params[ $name ] = $value;
+			}
+		}
 
 		return $twig->render( 'tpl_single.html', $params );
 	}

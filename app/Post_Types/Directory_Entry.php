@@ -185,17 +185,22 @@ class Directory_Entry {
 				'tpl_single.html' => array_key_exists( 'tpl_single', $this->options ) ? $this->options['tpl_single'] : '{{content}}',
 			)
 		);
-		$twig   = new Environment(
-			$loader,
-			array(
-				'autoescape' => false,
-			)
-		);
+		$twig   = new Environment( $loader, array( 'autoescape' => false ) );
 
 		$params = array(
 			'content' => $content,
 			'title'   => get_the_title(),
+			// 'excerpt' => get_the_excerpt(), // This hangs wordpress
+			'author'  => get_the_author(),
+			'link'    => get_the_permalink(),
+			'image'   => get_the_post_thumbnail_url(),
 		);
+		if ( function_exists( 'get_fields' ) ) {
+			$fields = (array) get_fields( get_the_ID() );
+			foreach ( $fields as $name => $value ) {
+				$params[ $name ] = $value;
+			}
+		}
 
 		return $twig->render( 'tpl_single.html', $params );
 	}

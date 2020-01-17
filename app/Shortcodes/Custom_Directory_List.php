@@ -70,12 +70,7 @@ class Custom_Directory_List {
 		// Get the template from options if none provided.
 		if ( empty( $template ) ) {
 			$options  = get_option( 'wp_custom_dir', array() );
-			$template = array_key_exists( 'tpl_list', $options ) ? $options['tpl_list'] : '';
-		}
-
-		// If still empty, notify the user and exit.
-		if ( empty( $template ) ) {
-			return __( 'The template for the list if empty', 'wp-custom-dir' );
+			$template = ! empty( $options['tpl_list'] ) ? $options['tpl_list'] : '{{title}}';
 		}
 
 		$loader = new ArrayLoader( array( 'tpl_list.html' => $template ) );
@@ -104,8 +99,17 @@ class Custom_Directory_List {
 				'excerpt' => '<span class="search-item" data-field="excerpt">' . get_the_excerpt() . '</span>',
 				'author'  => '<span class="search-item" data-field="author">' . get_the_author() . '</span>',
 				'link'    => get_the_permalink( $post_id ),
+				'image'   => get_the_post_thumbnail_url( $post_id ),
 			);
-			$out    .= '<li class="directory-item">' . $twig->render( 'tpl_list.html', $params );
+
+			if ( function_exists( 'get_fields' ) ) {
+				$fields = (array) get_fields( $post_id );
+				foreach ( $fields as $name => $value ) {
+					$params[ $name ] = '<span class="search-item" data-field="' . $name . '">' . $value . '</span>';
+				}
+			}
+
+			$out .= '<li class="directory-item">' . $twig->render( 'tpl_list.html', $params );
 		}
 		$query->reset_post_data();
 

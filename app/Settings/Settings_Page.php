@@ -243,6 +243,16 @@ class Settings_Page {
 	}
 </script>
 EOJ;
+
+		if ( function_exists( 'acf_get_field_groups' ) ) {
+			$groups = acf_get_field_groups( array( 'post_type' => $this->post_type ) );
+			foreach ( $groups as $group ) {
+				$fields = acf_get_fields( $group );
+				foreach ( $fields as $field ) {
+					$this->acf_fields[ $field['ID'] ] = $field;
+				}
+			}
+		}
 		return $this;
 	}
 
@@ -259,6 +269,10 @@ EOJ;
 EOP1;
 		// phpcs:ignore
 		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_single]" id="tpl-single" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		echo '<p class="description">' . esc_html__( 'You can also use the follwing ACF fields:', 'wp-custom-dir' ) . '</p>';
+		foreach ( $this->acf_fields as $field ) {
+			echo '<code style="font-size: 80%">{{' . $field['name'] . '}}</code> ';
+		}
 		return $this;
 	}
 
@@ -274,6 +288,11 @@ EOP1;
 EOP2;
 		// phpcs:ignore
 		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_list]" id="tpl-list" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		echo '<p class="description">' . esc_html__( 'You can also use the follwing ACF fields:', 'wp-custom-dir' ) . '</p>';
+		foreach ( $this->acf_fields as $field ) {
+			echo '<code style="font-size: 80%">{{' . $field['name'] . '}}</code> ';
+		}
+
 		return $this;
 	}
 
@@ -355,5 +374,31 @@ EOP1;
 	 * @var array
 	 */
 	protected $options = array();
+
+
+	/**
+	 * Save the post type in a var for multiple uses.
+	 *
+	 * @var string
+	 */
+	protected $post_type;
+
+	/**
+	 * Setter for $this->post_type.
+	 *
+	 * @param string $type New name for the post-type.
+	 * @return self
+	 */
+	public function set_post_type( $type ) : self {
+		$this->post_type = $type;
+		return $this;
+	}
+
+	/**
+	 * Save the ACF fields to be reused
+	 *
+	 * @var array
+	 */
+	protected $acf_fields = array();
 
 }

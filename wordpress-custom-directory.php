@@ -50,6 +50,7 @@ Settings\Plugin_List::factory()
 Settings\Settings_Page::factory()
 	->set_plugin_file( __FILE__ )
 	->set_plugin_slug( $plugin_slug )
+	->set_post_type( $post_type_name )
 	->start();
 
 // Create the help page in the dashboard.

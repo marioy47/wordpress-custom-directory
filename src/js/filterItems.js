@@ -9,7 +9,7 @@ const filterListItems = (listItems, formValues) => {
 
 	// Loop trough each list item searching matches
 	listItems.forEach(item => {
-		item.style.display = 'initial';
+		item.style.display = 'show';
 		let showItem = true;
 
 		// Loop for each form item looking for matches in the item.
