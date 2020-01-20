@@ -7,7 +7,7 @@
 
 namespace WpCustomDir\Settings;
 
-use Michelf\MarkdownExtra;
+use Michelf\Markdown;
 
 /**
  * Creates a simple page with usage instructions.
@@ -62,6 +62,7 @@ class Help_Page {
 	 * Converts the Mardkwon to HTML and outsputti it.
 	 *
 	 * @return self
+	 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	 */
 	public function create_page(): self {
 
@@ -72,10 +73,17 @@ class Help_Page {
 			return $this;
 		}
 
-		echo '<style>ul { list-style: inside ;} code{ padding: 0; margin: 3px 5px 2px 5px;} </style>';
-		echo '<div class="wrap">';
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		echo MarkdownExtra::defaultTransform( file_get_contents( $file ) );
+		echo '<style>ul { list-style: inside ;} code{ padding: 0; margin: 3px 5px 2px 5px;} pre>code { display: block; } </style>';
+		echo '<div class="wrap" style="background: white; padding: 1em;">';
+		$parser                  = new Markdown();
+		$parser->url_filter_func = function( $url ) {
+			if ( strpos( $url, 'help/' ) === 0 ) {
+				$url = plugin_dir_url( $this->plugin_file ) . $url;
+			}
+			return $url;
+		};
+
+		echo $parser->transform( file_get_contents( $file ) );
 		echo '</div>';
 		return $this;
 	}
