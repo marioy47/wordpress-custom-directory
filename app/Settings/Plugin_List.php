@@ -48,6 +48,7 @@ class Plugin_List {
 	 */
 	public function add_links( $links ): array {
 		$links[] = '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '">' . __( 'Settings', 'wp-custom-dir' ) . '</a>';
+		$links[] = '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '-help">' . __( 'Documentation', 'wp-custom-dir' ) . '</a>';
 
 		return $links;
 	}

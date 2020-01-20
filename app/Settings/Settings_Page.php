@@ -153,7 +153,7 @@ class Settings_Page {
 		);
 		add_settings_field(
 			'tpl-search',
-			__( 'Search form template', 'wp-custom-dir' ),
+			__( 'Search form code', 'wp-custom-dir' ),
 			array( $this, 'field_tpl_search' ),
 			$this->plugin_slug,
 			$current_section
@@ -178,7 +178,7 @@ class Settings_Page {
 	 */
 	public function field_slug(): self {
 		$val = array_key_exists( 'slug', $this->options ) ? $this->options['slug'] : null;
-		echo '<input type="text" name="' . esc_attr( $this->options_name ) . '[slug]" value="' . esc_attr( $val ) . '" placeholder="custom-path">';
+		echo '<input type="text" name="' . esc_attr( $this->options_name ) . '[slug]" value="' . esc_attr( $val ) . '" placeholder="directory-entry">';
 		return $this;
 	}
 
@@ -232,7 +232,8 @@ class Settings_Page {
 	 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	 */
 	public function section_templates(): self {
-		esc_html_e( 'Placeholder description on how the templates work...', 'wp-custom-dir' );
+		echo '<p>' . esc_html__( 'Please browse the help (link at the to) on how templates work and how to use them', 'wp-custom-dir' ) . '</p>';
+
 		// Initialize code morror for the template fields.
 		echo <<<EOJ
 <script type="text/javascript">
@@ -244,15 +245,25 @@ class Settings_Page {
 </script>
 EOJ;
 
+		$this->template_fields_help = '<p class="description">' . __( 'You can use the following template items:', 'wp-custom-dir' ) . '<br />';
+		foreach ( array( 'title', 'excerpt', 'content', 'image', 'link', 'author' ) as $element ) {
+			$this->template_fields_help .= '<code style="font-size: 80%">{{' . $element . '}}</code> ';
+		}
+		$this->template_fields_help .= '</p>';
+
+		$this->template_fields_help .= '<p class="description">' . esc_html__( 'You can also use the follwing ACF fields:', 'wp-custom-dir' ) . '<br />';
 		if ( function_exists( 'acf_get_field_groups' ) ) {
 			$groups = acf_get_field_groups( array( 'post_type' => $this->post_type ) );
 			foreach ( $groups as $group ) {
 				$fields = acf_get_fields( $group );
 				foreach ( $fields as $field ) {
 					$this->acf_fields[ $field['ID'] ] = $field;
+					$this->template_fields_help      .= '<code style="font-size: 80%">{{' . $field['name'] . '}}</code> ';
 				}
 			}
 		}
+		$this->template_fields_help .= '</p>';
+
 		return $this;
 	}
 
@@ -267,12 +278,9 @@ EOJ;
 <h1>{{title}}</h1>
 <div class="content">{{content}}</div>
 EOP1;
-		// phpcs:ignore
+
 		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_single]" id="tpl-single" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
-		echo '<p class="description">' . esc_html__( 'You can also use the follwing ACF fields:', 'wp-custom-dir' ) . '</p>';
-		foreach ( $this->acf_fields as $field ) {
-			echo '<code style="font-size: 80%">{{' . $field['name'] . '}}</code> ';
-		}
+		echo $this->template_fields_help;
 		return $this;
 	}
 
@@ -284,14 +292,12 @@ EOP1;
 	public function field_tpl_list(): self {
 		$val         = array_key_exists( 'tpl_list', $this->options ) ? $this->options['tpl_list'] : '';
 		$placeholder = <<<EOP2
-<div class="left">{{title}}</div><div class="right">{{summary}}</div>
+<div class="left">{{image}}</div>
+<div class="right">{{title}}</div>
 EOP2;
-		// phpcs:ignore
+
 		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_list]" id="tpl-list" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
-		echo '<p class="description">' . esc_html__( 'You can also use the follwing ACF fields:', 'wp-custom-dir' ) . '</p>';
-		foreach ( $this->acf_fields as $field ) {
-			echo '<code style="font-size: 80%">{{' . $field['name'] . '}}</code> ';
-		}
+		echo $this->template_fields_help;
 
 		return $this;
 	}
@@ -308,6 +314,7 @@ EOP2;
 EOP1;
 		// phpcs:ignore
 		echo '<textarea name="' . esc_attr( $this->options_name ) . '[tpl_search]" id="tpl-search" placeholder="' . esc_attr( $placeholder ) . '">' . $val . '</textarea>';
+		echo '<p class="description">' . esc_html__( 'Make sure that the input\'s name\'s are the same as the fields used in the list template. And DO NOT include the <form></form> tags', 'wp-custom-dir' ) . '</p>';
 		return $this;
 	}
 
@@ -401,4 +408,10 @@ EOP1;
 	 */
 	protected $acf_fields = array();
 
+	/**
+	 * String with all the template fields help.
+	 *
+	 * @var string
+	 */
+	protected $template_fields_help;
 }

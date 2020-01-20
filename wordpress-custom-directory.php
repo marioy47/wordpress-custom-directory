@@ -14,7 +14,7 @@
  * Version:           1.0.0
  * Requires at least: 5.0
  * Requires PHP:      7.0
- * Author:            Mairo Yepes
+ * Author:            Mario Yepes
  * Author URI:        https://marioyepes.com
  * Text Domain:       wp-custom-dir
  * License:

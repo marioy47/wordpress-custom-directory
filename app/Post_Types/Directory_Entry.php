@@ -50,12 +50,11 @@ class Directory_Entry {
 		// Change the output in the frontend for a single item (not the shortcodes).
 		add_filter( 'the_content', array( $this, 'change_post_content' ) );
 
+		// If in settings is set "remove_title" or "change_layout" we enqueue the functions that will do that.
 		$this->options = get_option( 'wp_custom_dir', array() );
-
 		if ( array_key_exists( 'remove_title', $this->options ) && $this->options['remove_title'] ) {
 			add_action( 'wp_head', array( $this, 'remove_title' ) );
 		}
-
 		if ( array_key_exists( 'change_layout', $this->options ) && $this->options['change_layout'] ) {
 			add_action( 'wp_head', array( $this, 'change_layout' ) );
 		}
