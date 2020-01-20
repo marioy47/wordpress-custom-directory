@@ -39,7 +39,7 @@ Then you have to activate the plugin.
 
 > Its recommended that you also activate the ACF plugin if you already have it.
 
-![Wordpress Plugin Directory and ACF activated](help/iamges/list-of-active-plugins.png)
+![Wordpress Plugin Directory and ACF activated](help/images/list-of-active-plugin.png)
 
 
 ### (Optional) Create some custom fields
@@ -154,9 +154,39 @@ In the same fashion as the _Single element template_ you can specify which field
 
 Just take into account that while the _Single element template_ should be designed for displaying the complete information of an item in a page by itself. The _List element template_ should be designed for displaying **all** the elements of the directory on a list.
 
+For our example, we'll use the following template.
+
+	<div class="row">
+		<div class="col-sm-4">
+			<img src="{{image}}" alt="Featured Image" />
+		</div>
+		<div class="col-sm-8">
+			<h3>
+				{{title}}
+			</h3>
+			{{excerpt}}
+			<div>
+				<a class="btn btn-primary" href="{{link}}">Read more</a>
+			</div>
+		</div>
+	</div>
+
+Which in the front-end will look like this.
+
+![Image of the list items]()
+
 #### Search form code
 
-Here you specify how to display
+The main idea behind the _Wordpress Custom Directory_ is to have a way to display a list or directory of items on a page and that **it can be searchable** in a easily manner.
+
+But since the plugin doesn't know by which fields the user is going to search, it's our job to specify them.
+
+So in this section you have to add the HTML corresponding to an HTML for where **the form fields names match the items fields names**.
+
+Also important to keep in mind: The fields that you use for the search **have to be included in the fields you display in the list**
+
+For our example we are showing only 2 fields: The `title` and the `excerpt`. So our serach should be something like:
+
 
 ## Create a DIRECTORY
 
