@@ -175,10 +175,14 @@ class Settings_Page {
 	 * Creates the slug (path) input field.
 	 *
 	 * @return self
+	 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	 */
 	public function field_slug(): self {
 		$val = array_key_exists( 'slug', $this->options ) ? $this->options['slug'] : null;
+		$url = '<a href="' . admin_url( 'options-permalink.php' ) . '">Permalinks</a>';
 		echo '<input type="text" name="' . esc_attr( $this->options_name ) . '[slug]" value="' . esc_attr( $val ) . '" placeholder="directory-entry">';
+		// Translators: a[href] for the permalnks page.
+		echo '<p class="description">' . sprintf( __( 'If you change this value, you need to got to the %s page and click on "save"', 'wp-custom-dir' ), $url ) . '</p>';
 		return $this;
 	}
 
