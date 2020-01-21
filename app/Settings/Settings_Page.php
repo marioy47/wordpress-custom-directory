@@ -194,7 +194,7 @@ class Settings_Page {
 	public function field_sidebar_name(): self {
 		$val = array_key_exists( 'sidebar_name', $this->options ) ? $this->options['sidebar_name'] : null;
 		echo '<input type="text" name="' . esc_attr( $this->options_name ) . '[sidebar_name]" value="' . esc_attr( $val ) . '" placeholder="Custom Directory Entries"  />';
-		echo '<p class="">' . esc_html__( 'Here you can change the entry name on the admin sidebar', 'wp-custom-dir' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Here you can change the entry name on the admin sidebar', 'wp-custom-dir' ) . '</p>';
 		return $this;
 	}
 
