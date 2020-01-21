@@ -1,18 +1,21 @@
 # Wordpress Custom Directory Help
 
-The **Wordpress Custom Directory** plugin, allows you to create a searchable of items in any page or any blog post.
+The **Wordpress Custom Directory** plugin, allows you to create a searchable list of items in any page or any blog post. Additionally, each item will have its own page with its own url.
 
-Items can be Personnel Profiles, Product Information (although Woocumerce would be better for that use case), Catalog Information, etc.
+Items in the list can be Personnel Profiles, Product Information (although Woocumerce would be better for that use case), Catalog Information, etc.
+
+![A directory list](help/images/wp-custom-dir-result.png)
 
 The main features of the plugin are:
 
 - Allows you to create a list of items that can be embedded in any page or post
+- You can add a custom form on top of the list of items so you can filter the items
 - You use a template to modify how how the **list items** are displayed and what information will be included in the list.
 - Every _directory item_ has its own URL which make it SEO friendly
 - You also use a template to modify how the **individual items** are displayed
 - Both templates use the [Twig](https://twig.symfony.com/doc/3.x/) template language to specify what to include in the items or in the list. (If you've used Shopify's Liquid system, you'll be right at home here)
 - You specify how the search on the _list items_ will work or by which fields the search will be made
-- The directory items are WordPress post types, so you can use plugins like [ACF](https://www.advancedcustomfields.com/) to add fields to the items. Or use WordPress filters to modify what information will be in every item.
+- The _directory items_ are WordPress post types, so you can use plugins like [ACF](https://www.advancedcustomfields.com/) to add fields to the items. Or use WordPress filters to modify what information will be in every item.
 - You can select the base path for the _directory items_
 - You can create more than one directory by using taxonomies
 
@@ -29,7 +32,7 @@ The process of creating a new directory involves the following steps:
 - Add items to the directory
 - Create a page for displaying a list of items and the search
 
-For the following steps, we're going to assume that we are going to create a directory of doctor profiles where we'll have a field for the biography, another field for the phone and a field for the work address.
+For the following steps, we're going to assume that we are going to create a directory of _Doctor Profiles_ where we'll have a field for the `biography`, another field for the `phone` and a field for the `address`.
 
 ### Install the plugin
 
@@ -52,10 +55,10 @@ Make sure that the **visible on post type** option includes `Custom Directory En
 
 As you can see from the image, we created two fields:
 
-- One for the phone
-- One for the work address
+- One for the `phone`
+- One for the work `address`
 
-We'll be using the native content field for the biography (more on the content field latter).
+We'll be using the native `content` field for the _biography_ (more on the content field latter).
 
 ### Configure the plugin
 
