@@ -9,7 +9,7 @@ const filterListItems = (listItems, formValues) => {
 
 	// Loop trough each list item searching matches
 	listItems.forEach(item => {
-		item.style.display = '';
+
 		let showItem = true;
 
 		// Loop for each form item looking for matches in the item.
@@ -21,6 +21,12 @@ const filterListItems = (listItems, formValues) => {
 		}
 		if (false === showItem) {
 			item.style.display = 'none';
+			item.classList.add('search-no-match');
+			item.classList.remove('search-match');
+		} else {
+			item.style.display = '';
+			item.classList.add('search-match');
+			item.classList.remove('search-no-match');
 		}
 	});
 }
