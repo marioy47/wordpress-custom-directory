@@ -101,9 +101,18 @@ class Directory_Entry {
 			),
 			'query_var'             => true,
 			'menu_icon'             => 'dashicons-networking',
-			'supports'              => array( 'title', 'editor', 'thumbnail', 'revisions', 'author' ),
+			'supports'              => array(
+				'title',
+				'editor',
+				'thumbnail',
+				'excerpt',
+				'revisions',
+				'author',
+				'genesis-seo',
+				' genesis-cpt-archives-settings',
+				'genesis-layouts',
+			),
 		);
-
 			register_post_type( $this->post_type, $args );
 	}
 
@@ -116,6 +125,7 @@ class Directory_Entry {
 	public function add_columns( $cols ) {
 		$cols['directory']  = __( 'Directory', 'wp-custom-dir' );
 		$cols['feat_image'] = __( 'Feat Img', 'wp-custom-dir' );
+		$cols['menu_order'] = __( 'Order', 'wp-custom-dir' );
 		return $cols;
 	}
 
@@ -134,6 +144,9 @@ class Directory_Entry {
 			case 'feat_image':
 				echo get_the_post_thumbnail( $post_id, array( '50', '50' ) );
 				break;
+			case 'menu_order':
+				global $post;
+				echo esc_html( $post->menu_order );
 		}
 	}
 

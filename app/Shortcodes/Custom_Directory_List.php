@@ -57,9 +57,12 @@ class Custom_Directory_List {
 	public function shortcode( $atts, $template ) {
 		$atts = shortcode_atts(
 			array(
-				'directory' => null,
-				'id'        => null,
-				'class'     => null,
+				'directory'  => null,
+				'id'         => null,
+				'class'      => null,
+				'order'      => 'menu_order ASC',
+				'filter_key' => null,
+				'filter_val' => null,
 			),
 			$atts
 		);
@@ -76,6 +79,12 @@ class Custom_Directory_List {
 		$loader = new ArrayLoader( array( 'tpl_list.html' => $template ) );
 		$twig   = new Environment( $loader, array( 'autoescape' => false ) );
 
+		$orderby = array();
+		foreach ( explode( ',', $atts['order'] ) as $line ) {
+			list($field, $direction) = explode( ' ', trim( $line ) );
+			$orderby[ $field ]       = empty( $direction ) ? 'ASC' : $direction;
+		}
+
 		// Build the query.
 		$query_params = array(
 			'post_type' => $this->post_type,
@@ -86,8 +95,10 @@ class Custom_Directory_List {
 					'terms'    => $atts['directory'],
 				),
 			),
+			'orderby'   => $orderby,
 		);
-		$query        = new \WP_Query( $query_params );
+
+		$query = new \WP_Query( $query_params );
 
 		// Build the list.
 		$out = '<ul class="custom-directory-list" id="' . $atts['id'] . '">';
