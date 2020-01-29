@@ -5,7 +5,7 @@
  * @package Wordpress_Custom_Directory
  */
 
-namespace WpCustomDir\Shortcodes;
+namespace WpCustomDir;
 
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -15,7 +15,7 @@ use Twig\Loader\ArrayLoader;
  *
  * Also registers the shortcode in Shortcodes Ultimate.
  */
-class Custom_Directory_List {
+class Shortcode_Custom_Directory_List {
 	/**
 	 * Singleton.
 	 */

@@ -5,12 +5,12 @@
  * @package Wordpres_Custom_Directory
  */
 
-namespace WpCustomDir\Post_Types;
+namespace WpCustomDir;
 
 /**
  * Creates the taxonomy for multiple directories.
  */
-class Directory_Tax {
+class Type_Directory_Tax {
 	/**
 	 * Singleton.
 	 */

@@ -5,7 +5,7 @@
  * @package Wordpress_Custom_Directory
  */
 
-namespace WpCustomDir\Settings;
+namespace WpCustomDir;
 
 /**
  * Creates the settings page.
@@ -37,9 +37,7 @@ class Settings_Page {
 	public function start(): self {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_fields' ) );
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'enable_code_mirror' ) );
-
 		return $this;
 	}
 

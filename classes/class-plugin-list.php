@@ -5,10 +5,10 @@
  * @package Wordpress_Custom_Directory
  */
 
-namespace WpCustomDir\Settings;
+namespace WpCustomDir;
 
 /**
- * Changes the plugin list.
+ * Changes the plugin list adding links under the plugin name.
  */
 class Plugin_List {
 

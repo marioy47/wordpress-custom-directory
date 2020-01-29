@@ -5,7 +5,7 @@
  * @package Wordpress_Custom_Directory
  */
 
-namespace WpCustomDir\Shortcodes;
+namespace WpCustomDir;
 
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -13,7 +13,7 @@ use Twig\Loader\ArrayLoader;
 /**
  * Setup and create a search form for a directory.
  */
-class Custom_Directory_Search {
+class Shortcode_Custom_Directory_Search {
 
 	/**
 	 * Singleton.

@@ -5,7 +5,7 @@
  * @package Wordpress_Custom_Directory
  */
 
-namespace WpCustomDir\Post_Types;
+namespace WpCustomDir;
 
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -13,7 +13,7 @@ use Twig\Loader\ArrayLoader;
 /**
  * Creates the post type directory_entry and its metaboxes.
  */
-class Directory_Entry {
+class Type_Directory_Entry {
 
 	/**
 	 * Singleton.
@@ -199,10 +199,10 @@ class Directory_Entry {
 		);
 		$twig   = new Environment( $loader, array( 'autoescape' => false ) );
 
+		// do NOT add 'excerpt' since it hangs WordPress!.
 		$params = array(
 			'content' => $content,
 			'title'   => get_the_title(),
-			// 'excerpt' => get_the_excerpt(), // This hangs wordpress
 			'author'  => get_the_author(),
 			'link'    => get_the_permalink(),
 			'image'   => get_the_post_thumbnail_url(),

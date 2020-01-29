@@ -5,7 +5,7 @@
  * @package Wordpress_Custom_Directory
  */
 
-namespace WpCustomDir\Shortcodes;
+namespace WpCustomDir;
 
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -13,7 +13,7 @@ use Twig\Loader\ArrayLoader;
 /**
  * Creates the shortcode for displaying a single item.
  */
-class Custom_Directory_Item {
+class Shortcode_Custom_Directory_Item {
 	/**
 	 * Singleton.
 	 */

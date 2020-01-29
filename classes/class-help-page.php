@@ -5,7 +5,7 @@
  * @package Wordpress_Custom_Directory
  */
 
-namespace WpCustomDir\Settings;
+namespace WpCustomDir;
 
 use Michelf\Markdown;
 
@@ -83,6 +83,7 @@ class Help_Page {
 			return $url;
 		};
 
+		// phpcs:disable WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		echo $parser->transform( file_get_contents( $file ) );
 		echo '</div>';
 		return $this;
