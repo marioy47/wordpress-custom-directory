@@ -10,7 +10,7 @@ namespace WpCustomDir;
 /**
  * Changes the plugin list adding links under the plugin name.
  */
-class Plugin_List {
+class Plugin_List_And_Lang {
 
 	/**
 	 * Singleton.
@@ -36,6 +36,7 @@ class Plugin_List {
 	 */
 	public function start(): self {
 		add_filter( 'plugin_action_links_' . plugin_basename( $this->plugin_file ), array( $this, 'add_links' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 
 		return $this;
 	}
@@ -51,6 +52,16 @@ class Plugin_List {
 		$links[] = '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '-help">' . __( 'Documentation', 'wp-custom-dir' ) . '</a>';
 
 		return $links;
+	}
+
+	/**
+	 * Loads the language on the plugins_loaded hook.
+	 *
+	 * @return self
+	 */
+	public function load_textdomain(): self {
+		load_plugin_textdomain( 'wp-custom-dir', false, basename( dirname( $this->plugin_file ) ) . '/languages' );
+		return $this;
 	}
 
 	/**

@@ -42,7 +42,7 @@ require_once __DIR__ . '/classes/autoload.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Add links to the plugin list.
-Plugin_List::factory()
+Plugin_List_And_Lang::factory()
 	->set_plugin_file( __FILE__ )
 	->set_plugin_slug( $plugin_slug )
 	->start();

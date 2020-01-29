@@ -4,7 +4,8 @@ const composer = require('gulp-composer');
 const del = require('del');
 const gulp = require('gulp');
 const webpack = require('webpack-stream');
-const zip = require('gulp-zip')
+const wpPot = require('gulp-wp-pot');
+const zip = require('gulp-zip');
 
 /**
  * Compiles and bundles JavaScript using WebPack.
@@ -22,9 +23,10 @@ function scripts() {
  */
 function compress() {
 	return gulp.src([
-		'app/**',
+		'classes/**',
 		'help/**',
 		'js/**',
+		'languages/*',
 		'PLUGIN_HELP.md',
 		'vendor/**',
 		'wordpress-custom-directory.php'
@@ -36,7 +38,7 @@ function compress() {
 /**
  * Executes composer on prod or dev dpending on the NODE_ENV status.
  */
-function php() {
+function composerInstall() {
 	if (process.env.NODE_ENV == 'production') {
 		composer('install --no-dev');
 		return composer('dump-autoload -o')
@@ -55,14 +57,24 @@ function clean() {
 	return del(['js/', 'css/', '*.zip'])
 }
 
+function potCreate() {
+	return gulp.src(['wordpress-custom-directory.php', 'classes/*.php'])
+		.pipe(wpPot({
+			domain: 'wp-custom-dir',
+			package: 'Wordpress_Custom_Dir'
+		}))
+		.pipe(gulp.dest('languages/wp-custom-dir.pot'));
+}
+
 
 /**
  * Exportes tasks.
  */
-exports.build = gulp.series(clean, scripts, php);
+exports.build = gulp.series(clean, scripts, potCreate, php);
 exports.clean = clean;
-exports.compress = gulp.series(scripts, php, compress);
-exports.php = php;
+exports.compress = gulp.series(clean, scripts, potCreate, php, compress);
+exports.php = composerInstall;
+exports.pot = gulp.series(potCreate);
 exports.scripts = scripts;
 exports.watch = gulp.series(scripts);
 exports.zip = compress;

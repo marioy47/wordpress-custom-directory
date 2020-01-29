@@ -7,7 +7,8 @@
 		"start": "gulp watch",
 		"build": "NODE_ENV=production gulp build",
 		"compress": "NODE_ENV=production gulp compress",
-		"clean": "gulp clean"
+		"clean": "gulp clean",
+		"pot": "gulp pot"
 	},
 	"repository": {
 		"type": "git",
@@ -25,6 +26,7 @@
 		"del": "^5.1.0",
 		"gulp": "^4.0.2",
 		"gulp-composer": "^0.4.5",
+		"gulp-wp-pot": "^2.3.6",
 		"gulp-zip": "^5.0.1",
 		"webpack": "^4.41.5",
 		"webpack-cli": "^3.3.10",
