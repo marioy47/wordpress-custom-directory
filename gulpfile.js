@@ -40,11 +40,11 @@ function compress() {
  */
 function composerInstall() {
 	if (process.env.NODE_ENV == 'production') {
-		composer('install --no-dev');
-		return composer('dump-autoload -o')
+		composer('install --no-dev', { async: false });
+		return composer('dump-autoload -o', { async: false });
 	} else {
-		composer('install');
-		return composer('dump-autoload')
+		composer('install', { async: false });
+		return composer('dump-autoload', { async: false })
 	}
 }
 
@@ -70,9 +70,9 @@ function potCreate() {
 /**
  * Exportes tasks.
  */
-exports.build = gulp.series(clean, scripts, potCreate, php);
+exports.build = gulp.series(clean, scripts, potCreate, composerInstall);
 exports.clean = clean;
-exports.compress = gulp.series(clean, scripts, potCreate, php, compress);
+exports.compress = gulp.series(clean, scripts, potCreate, composerInstall, compress);
 exports.php = composerInstall;
 exports.pot = gulp.series(potCreate);
 exports.scripts = scripts;

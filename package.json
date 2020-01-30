@@ -5,8 +5,8 @@
 	"main": "index.js",
 	"scripts": {
 		"start": "gulp watch",
-		"build": "NODE_ENV=production gulp build",
-		"compress": "NODE_ENV=production gulp compress",
+		"build": "cross-env NODE_ENV=production gulp build",
+		"compress": "cross-env NODE_ENV=production gulp compress",
 		"clean": "gulp clean",
 		"pot": "gulp pot"
 	},
@@ -23,6 +23,7 @@
 		"@babel/core": "^7.7.7",
 		"@babel/preset-env": "^7.7.7",
 		"babel-loader": "^8.0.6",
+		"cross-env": "^7.0.0",
 		"del": "^5.1.0",
 		"gulp": "^4.0.2",
 		"gulp-composer": "^0.4.5",
