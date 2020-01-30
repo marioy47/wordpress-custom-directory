@@ -81,7 +81,7 @@ class Shortcode_Custom_Directory_List {
 
 		$orderby = array();
 		foreach ( explode( ',', $atts['order'] ) as $line ) {
-			list($field, $direction) = explode( ' ', trim( $line ) );
+			list($field, $direction) = array_map( 'trim', explode( ' ', trim( $line ) ) );
 			$orderby[ $field ]       = empty( $direction ) ? 'ASC' : $direction;
 		}
 
@@ -113,6 +113,7 @@ class Shortcode_Custom_Directory_List {
 				'image'   => get_the_post_thumbnail_url( $post_id ),
 			);
 
+			// Si esta instalado ACF.
 			if ( function_exists( 'get_fields' ) ) {
 				$fields = (array) get_fields( $post_id );
 				foreach ( $fields as $name => $value ) {
@@ -120,7 +121,7 @@ class Shortcode_Custom_Directory_List {
 				}
 			}
 
-			$out .= '<li class="directory-item">' . $twig->render( 'tpl_list.html', $params );
+			$out .= '<li class="directory-item">' . $twig->render( 'tpl_list.html', $params ) . '</li>';
 		}
 		$query->reset_post_data();
 
@@ -142,17 +143,41 @@ class Shortcode_Custom_Directory_List {
 			'type'     => 'wrap',
 			'group'    => 'content other',
 			'atts'     => array(
-				'directory' => array(
+				'directory'    => array(
 					'type'    => 'text',
 					'default' => '',
 					'name'    => __( 'Directory ID', 'wp-custom-dir' ),
 					'desc'    => __( 'The ID of the directory to list', 'wp-custom-dir' ),
 				),
-				'id'        => array(
+				'id'           => array(
 					'type'    => 'text',
 					'default' => '',
 					'name'    => __( 'Custom CSS id', 'wp-custom-dir' ),
 					'desc'    => __( 'Allows you to specify the <ul> id for the list', 'wp-custom-dir' ),
+				),
+				'class'        => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'HTML Class', 'wp-custom-dir' ),
+					'desc'    => __( 'Add custom CSS class for styling', 'wp-custom-dir' ),
+				),
+				'order'        => array(
+					'type'    => 'text',
+					'default' => 'menu_order ASC',
+					'name'    => __( 'Sort by', 'wp-custom-dir' ),
+					'desc'    => __( 'Possible options: <code>title, date, menu_order, content</code> and direction is ASC or DESC', 'wp-custom-dir' ),
+				),
+				'filter_key'   => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'Filter by this field', 'wp-custom-dir' ),
+					'desc'    => __( 'Select a field to filter the items by (use in conjuction to next field)', 'wp-custom-dir' ),
+				),
+				'filter_value' => array(
+					'type'    => 'text',
+					'default' => '',
+					'name'    => __( 'Filter REGEX', 'wp-custom-dir' ),
+					'desc'    => __( 'REGEX to apply the the prev field', 'wp-custom-dir' ),
 				),
 			),
 			'desc'     => __( 'Shows a list of the content for a directory. if you provide "content", it will be used as the template for each directory item.', 'wp-custom-dir' ),
