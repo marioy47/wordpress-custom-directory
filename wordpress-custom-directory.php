@@ -45,6 +45,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 Plugin_List_And_Lang::factory()
 	->set_plugin_file( __FILE__ )
 	->set_plugin_slug( $plugin_slug )
+	->set_post_type( $post_type_name )
 	->start();
 
 // Create the settings page for custom-type manipulation.

@@ -79,26 +79,18 @@ class Shortcode_Custom_Directory_List {
 		$loader = new ArrayLoader( array( 'tpl_list.html' => $template ) );
 		$twig   = new Environment( $loader, array( 'autoescape' => false ) );
 
-		$orderby = array();
 		foreach ( explode( ',', $atts['order'] ) as $line ) {
 			list($field, $direction) = array_map( 'trim', explode( ' ', trim( $line ) ) );
-			$orderby[ $field ]       = empty( $direction ) ? 'ASC' : $direction;
+			$this->add_query_sort( trim( $field ), trim( $direction ) );
 		}
 
-		// Build the query.
-		$query_params = array(
-			'post_type' => $this->post_type,
-			'tax_query' => array(
-				array(
-					'taxonomy' => $this->taxonomy,
-					'field'    => 'slug',
-					'terms'    => $atts['directory'],
-				),
-			),
-			'orderby'   => $orderby,
-		);
+		if ( ! empty( $atts['filter_key'] ) ) {
+			$this->add_query_filter( trim( $atts['filter_key'] ), trim( $atts['filter_val'] ) );
+		}
 
-		$query = new \WP_Query( $query_params );
+		$this->add_query_tax( $atts['directory'] );
+
+		$query = new \WP_Query( $this->get_query_params() );
 
 		// Build the list.
 		$out = '<ul class="custom-directory-list" id="' . $atts['id'] . '">';
@@ -242,4 +234,125 @@ class Shortcode_Custom_Directory_List {
 		$this->shortcode_name = $name;
 		return $this;
 	}
+
+	/**
+	 * Array for storing the WP_query
+	 *
+	 * @var array
+	 */
+	protected $query_params;
+
+	/**
+	 * Adds to $this->getQueryParams the filter options
+	 *
+	 * @param string $key Name of the field to filter by.
+	 * @param string $val Value that neds to have to be filred
+	 * @return self
+	 */
+	public function add_query_filter( $key, $val ): self {
+		if ( empty( $this->query_params ) ) {
+			$this->reset_query_params();
+		}
+		$this->query_params['meta_query'][ $key . '_clause' ] = array(
+			'key'     => $key,
+			'value'   => '^' . strtolower( $val ) . '$',
+			'compare' => 'REGEXP',
+			'type'    => 'CHAR',
+		);
+		return $this;
+	}
+
+	/**
+	 * Adds to $this->get_query_params the sorting options.
+	 *
+	 * The filed will alway have the ASC direction for sorting.
+	 *
+	 * @param string $key Name of the field to sort by.
+	 * @param string $direction Can be ASC or DESC.
+	 * @return self
+	 */
+	public function add_query_sort( $key, $direction = 'ASC' ): self {
+		if ( empty( $this->query_params ) ) {
+			$this->reset_query_params();
+		}
+
+		if ( empty( $direction ) ) {
+			$direction = 'ASC';
+		}
+
+		// "order" no es compatible con meta_query. Entonces si hay meta, lo debemos borrar.
+		if ( ! is_array( $this->query_params['orderby'] ) ) {
+			$this->query_params['orderby'] = array();
+			unset( $this->query_params['order'] );
+		}
+
+		// Los campos nativos de WP no necesitan meta_query.
+		if ( in_array( $key, array( 'menu_order', 'title', 'content', 'date', 'rand' ) ) ) {
+			$this->query_params['orderby'][ $key ] = $direction;
+		} elseif ( ! array_key_exists( $key . '_clause', $this->query_params['meta_query'] ) ) {
+			$this->query_params['meta_query'][ $key . '_clause' ] = array(
+				'key'     => $key,
+				'compare' => 'EXISTS',
+			);
+			$this->query_params['orderby'][ $key . '_clause' ]    = $direction;
+		} else {
+			$this->query_params['orderby'][ $key . '_clause' ] = $direction;
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Add a taxonomy query, which is what we use to have multiple directories.
+	 *
+	 * @param string $taxonomy Name of the directory.
+	 * @return self
+	 */
+	public function add_query_tax( $taxonomy ): self {
+		if ( empty( $this->query_params ) ) {
+			$this->reset_query_params();
+		}
+		$this->query_params['tax_query'] = array(
+			array(
+				'taxonomy' => $this->taxonomy,
+				'field'    => 'slug',
+				'terms'    => $taxonomy,
+			),
+		);
+		return $this;
+	}
+
+	/**
+	 * Reset $this->get_query_params to start a new query.
+	 *
+	 * Useful for testing and when the shortcode doesn't have any filter/sport parammeters.
+	 *
+	 * @return self
+	 */
+	public function reset_query_params(): self {
+		$this->query_params = array(
+			'post_status'    => 'publish',
+			'post_type'      => $this->post_type,
+			'posts_per_page' => -1,
+			'order'          => 'ASC',
+			'orderby'        => 'menu_order title',
+			'meta_query'     => array(
+				'relation' => 'AND',
+			),
+		);
+		return $this;
+	}
+
+	/**
+	 * Getter for $this->get_query_params
+	 *
+	 * @return array
+	 */
+	public function get_query_params(): array {
+		if ( empty( $this->query_params ) ) {
+			$this->reset_query_params();
+		}
+		return $this->query_params;
+	}
+
 }

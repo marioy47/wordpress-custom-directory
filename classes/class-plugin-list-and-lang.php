@@ -49,8 +49,7 @@ class Plugin_List_And_Lang {
 	 */
 	public function add_links( $links ): array {
 		$links[] = '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '">' . __( 'Settings', 'wp-custom-dir' ) . '</a>';
-		$links[] = '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '-help">' . __( 'Documentation', 'wp-custom-dir' ) . '</a>';
-
+		$links[] = '<a href="' . admin_url( 'edit.php?post_type=' . $this->post_type . '&page=' . $this->plugin_slug ) . '-help">' . __( 'Documentation', 'wp-custom-dir' ) . '</a>';
 		return $links;
 	}
 
@@ -59,7 +58,7 @@ class Plugin_List_And_Lang {
 	 *
 	 * @return self
 	 */
-	public function load_textdomain(): self {
+	public function load_textdomain() : self {
 		load_plugin_textdomain( 'wp-custom-dir', false, basename( dirname( $this->plugin_file ) ) . '/languages' );
 		return $this;
 	}
@@ -97,6 +96,24 @@ class Plugin_List_And_Lang {
 	 */
 	public function set_plugin_slug( $slug ): self {
 		$this->plugin_slug = $slug;
+		return $this;
+	}
+
+	/**
+	 * The post type name selected in the start file.
+	 *
+	 * @var string
+	 */
+	protected $post_type;
+
+	/**
+	 * Setter for the post type.
+	 *
+	 * @param string $type Name for the post type.
+	 * @return self
+	 */
+	public function set_post_type( $type ): self {
+		$this->post_type = $type;
 		return $this;
 	}
 

@@ -47,14 +47,16 @@ class Help_Page {
 	 * @return self
 	 */
 	public function add_page(): self {
-		add_options_page(
-			__( 'WordPress Custom Directory Help', 'wp-custom-dir' ),
-			false,
+		add_submenu_page(
+			'edit.php?post_type=directory_entry',
+			null,
+			__( 'Help', 'wp-custom-dir' ),
 			'manage_options',
 			$this->plugin_slug . '-help',
 			array( $this, 'create_page' ),
 			null
 		);
+
 		return $this;
 	}
 
