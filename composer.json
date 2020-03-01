@@ -1,45 +1,46 @@
 {
-  "name": "marioy47/wordpress-custom-directory",
-  "description": "Wordpress plugin to create a custom searcheable directory of items",
-  "type": "wordpress-plugin",
-  "authors": [
-    {
-      "name": "Mario Yepes",
-      "email": "marioy47@gmail.com"
-    }
-  ],
-  "minimum-stability": "alpha",
-  "require": {
-    "twig/twig": "^3.0",
-    "michelf/php-markdown": "^1.9"
-  },
-  "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "*",
-    "phpcompatibility/php-compatibility": "*",
-    "phpcompatibility/phpcompatibility-wp": "*",
-    "sirbrillig/phpcs-variable-analysis": "*",
-    "wp-coding-standards/wpcs": "*"
-  },
-  "scripts": {
-    "install-codestandards": [
-      "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
-    ],
-    "post-install-cmd": [
-      "@install-codestandards"
-    ],
-    "phpcs": "phpcs",
-    "phpcsi": "phpcs -i",
-    "phpcbf": "phpcbf",
-    "phpcs-wp": [
-      "phpcs --standard=WordPress,WordPress-Extra,WordPress-Docs,WordPress-Core"
-    ],
-    "phpcbf-wp": [
-      "phpcbf --standard=WordPress,WordPress-Extra,WordPress-Docs,WordPress-Core"
-    ]
-  },
-  "autoload": {
-    "psr-4": {
-      "WpCustomDir\\": "app/"
-    }
-  }
+	"name": "marioy47/wordpress-custom-directory",
+	"description": "Wordpress plugin to create a custom searcheable directory of items",
+	"type": "wordpress-plugin",
+	"authors": [
+		{
+			"name": "Mario Yepes",
+			"email": "marioy47@gmail.com"
+		}
+	],
+	"minimum-stability": "alpha",
+	"require": {
+		"twig/twig": "^3.0",
+		"michelf/php-markdown": "^1.9"
+	},
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "*",
+		"phpcompatibility/php-compatibility": "*",
+		"phpcompatibility/phpcompatibility-wp": "*",
+		"sirbrillig/phpcs-variable-analysis": "*",
+		"wp-coding-standards/wpcs": "*"
+	},
+	"scripts": {
+		"install-codestandards": [
+			"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run"
+		],
+		"post-install-cmd": [
+			"@install-codestandards"
+		],
+		"phpcs": "phpcs",
+		"phpcsi": "phpcs -i",
+		"phpcbf": "phpcbf",
+		"phpcs-wp": [
+			"phpcs --standard=WordPress,WordPress-Extra,WordPress-Docs,WordPress-Core"
+		],
+		"phpcbf-wp": [
+			"phpcbf --standard=WordPress,WordPress-Extra,WordPress-Docs,WordPress-Core"
+		],
+		"zip": "TDIR=`basename $PWD` && cd ../ && zip -r ${TDIR}/${TDIR}.zip ${TDIR}/{classes,help,js,languages,vendor,*.php}"
+	},
+	"autoload": {
+		"psr-4": {
+			"WpCustomDir\\": "app/"
+		}
+	}
 }

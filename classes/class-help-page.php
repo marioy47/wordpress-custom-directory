@@ -68,7 +68,7 @@ class Help_Page {
 	 */
 	public function create_page(): self {
 
-		$file = dirname( $this->plugin_file ) . '/PLUGIN_HELP.md';
+		$file = dirname( $this->plugin_file ) . '/help/PLUGIN_HELP.md';
 
 		if ( ! is_file( $file ) ) {
 			esc_html_e( 'Could not find the help file in the plugin directory', 'wp-custom-dir' );
@@ -79,8 +79,8 @@ class Help_Page {
 		echo '<div class="wrap" style="background: white; padding: 1em;">';
 		$parser                  = new Markdown();
 		$parser->url_filter_func = function( $url ) {
-			if ( strpos( $url, 'help/' ) === 0 ) {
-				$url = plugin_dir_url( $this->plugin_file ) . $url;
+			if ( strpos( $url, 'images/' ) === 0 ) {
+				$url = plugin_dir_url( $this->plugin_file ) . 'help/' . $url;
 			}
 			return $url;
 		};

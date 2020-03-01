@@ -4,7 +4,7 @@ The **Wordpress Custom Directory** plugin, allows you to create a searchable lis
 
 Items in the list can be Personnel Profiles, Product Information (although Woocumerce would be better for that use case), Catalog Information, etc.
 
-![A directory list](help/images/wp-custom-dir-result.png)
+![A directory list](images/wp-custom-dir-result.png)
 
 The main features of the plugin are:
 
@@ -42,7 +42,7 @@ Then you have to activate the plugin.
 
 > Its recommended that you also activate the ACF plugin if you already have it.
 
-![Wordpress Plugin Directory and ACF activated](help/images/list-of-active-plugin.png)
+![Wordpress Plugin Directory and ACF activated](images/list-of-active-plugin.png)
 
 
 ### 2. (Optional) Create some custom fields
@@ -51,7 +51,7 @@ If you activated the ACF plugin, this is the time to create a new group of field
 
 Make sure that the **visible on post type** option includes `Custom Directory Entry`
 
-![Adding custom fields](help/images/adding-custom-fields.png)
+![Adding custom fields](images/adding-custom-fields.png)
 
 As you can see from the image, we created two fields:
 
@@ -64,9 +64,9 @@ We'll be using the native `content` field for the _biography_ (more on the conte
 
 Go to the plugin's settings page and start the configuration.
 
-![Settings Page on Admin Menu](help/images/admin-menu-settings-page.png)
+![Settings Page on Admin Menu](images/admin-menu-settings-page.png)
 
-![Empty settings page](help/images/empty-settings-page.png)
+![Empty settings page](images/empty-settings-page.png)
 
 ### 4. Choose an slug or base path for the directory items
 
@@ -208,7 +208,7 @@ To display your directory or list of items, go to `Custom Directory Entries > Di
 
 You just need to give it a name. But **is very important that you take note of the directory slug** since well need that when we start using the shortcodes.
 
-![Create the Directory "Site Doctors"](help/images/directory-site-doctors.png)
+![Create the Directory "Site Doctors"](images/directory-site-doctors.png)
 
 ### 2. Create Entries
 
@@ -331,4 +331,4 @@ Please refer to the Twig documentation on how to use it.
 
 But the gist of it all is that any code enclosed in `{{` and `}}` will be assumed to be a variable and it will be replaced at runtime.
 
-![Adding an image](help/images/locaitons-key.png)
+![Adding an image](images/locaitons-key.png)
