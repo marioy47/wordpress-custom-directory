@@ -2,17 +2,18 @@
 
 The **Wordpress Custom Directory** plugin, allows you to create a searchable list of items in any page or any blog post. Additionally, each item will have its own page with its own url.
 
-Items in the list can be Personnel Profiles, Product Information (although Woocumerce would be better for that use case), Catalog Information, etc.
+Items in the list can be personnel profiles, product information (although WooCommerce would be better for that use case), catalog information, definitions of specialized terms, etc.
 
 ![A directory list](images/wp-custom-dir-result.png)
+_A list of doctors profiles_
 
 The main features of the plugin are:
 
 - Allows you to create a list of items that can be embedded in any page or post
-- You can add a custom form on top of the list of items so you can filter the items
-- You use a template to modify how how the **list items** are displayed and what information will be included in the list.
-- Every _directory item_ has its own URL which make it SEO friendly
-- You also use a template to modify how the **individual items** are displayed
+- Every _directory item_ has its own page with its own URL which make it SEO friendly
+- You can add a custom form on top of the list of items so you can _live filter_ the items
+- You use a template to modify how how the **list items** are displayed and what information will be included in the list (The template is configured righ in the WordPress Settings)
+- You also use a template to modify how the **individual items** are displayed (The template is configured righ in the WordPress Settings)
 - Both templates use the [Twig](https://twig.symfony.com/doc/3.x/) template language to specify what to include in the items or in the list. (If you've used Shopify's Liquid system, you'll be right at home here)
 - You specify how the search on the _list items_ will work or by which fields the search will be made
 - The _directory items_ are WordPress post types, so you can use plugins like [ACF](https://www.advancedcustomfields.com/) to add fields to the items. Or use WordPress filters to modify what information will be in every item.
@@ -26,7 +27,7 @@ Since you have to create templates on how items are going to be displayed **you 
 The process of creating a new directory involves the following steps:
 
 - Install the plugin
-- (optionally) create custom fields
+- (optionally) create custom fields with a plugin like ACF
 - Configure the plugin (select base path, create the templates, etc.)
 - Create an actual Directory (a taxonomy)
 - Add items to the directory
@@ -70,7 +71,7 @@ Go to the plugin's settings page and start the configuration.
 
 ### 4. Choose an slug or base path for the directory items
 
-Every directory entry will have the same _base path_. By default it is `directory-entry`.
+Every directory entry will have the same _base path_. By the image above, you can see that the default _base path_ is is `directory-entry`.
 
 So if you create an item with the name `Jhon Doe Profile` its very possible that the URL for that item will be `https://my-site-domain.com/directory-entry/jhon-doe-profile`.
 
@@ -112,13 +113,20 @@ You have to specify 3 templates:
 - A template for each _item_ when they get displayed on a list by using the `[custom-directory-list]` shortcode.
 - The code for the search form that will be created by the `[custom-directory-search]` shortcode
 
-Both the _Single element template_ and the _List element template_ use the [Twig](https://twig.symfony.com/doc/3.x/) template system. so if you want to change a field to be uppercase, you could use something like `{{title|uppercase}}`.
+Both the _Single element template_ and the _List element template_ use the [Twig](https://twig.symfony.com/doc/3.x/) template system which has features like blocks and filters. So if you want to change a field to be uppercase, you could use the `uppercase` filter  like this:
 
-The search template does not uses Twig and there is no possibility to use variables.
+	{{title|uppercase}}
+
+Please read the Twig documentation of how to use blocks, conditionals and filters.
+
+***Note 1:** The search template does not uses Twig and its not possible to use variables.
+
+***Note 2:** Currently its not possible to create different templates for different directories.
+
 
 #### Single element template
 
-This will allow you to change how an individual item of the directory is displayed.
+This will allow you to change how an _individual item page_ will be displayed.
 
 So in our example we might have an entry with the following data:
 
@@ -126,6 +134,8 @@ So in our example we might have an entry with the following data:
 - `Bio`: Our chief doctor
 - `phone`: 301432456
 - `address`: Leak Road, Miami
+
+> The last 2 are ACF fields
 
 We could create a template like this:
 
