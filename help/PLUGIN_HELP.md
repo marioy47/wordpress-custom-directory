@@ -16,7 +16,7 @@ The main features of the plugin are:
 - You also use a template to modify how the **individual items** are displayed (The template is configured righ in the WordPress Settings)
 - Both templates use the [Twig](https://twig.symfony.com/doc/3.x/) template language to specify what to include in the items or in the list. (If you've used Shopify's Liquid system, you'll be right at home here)
 - You specify how the search on the _list items_ will work or by which fields the search will be made
-- The _directory items_ are WordPress post types, so you can use plugins like [ACF](https://www.advancedcustomfields.com/) to add fields to the items. Or use WordPress filters to modify what information will be in every item.
+- The _directory items_ are WordPress posts, so you can use plugins like [ACF](https://www.advancedcustomfields.com/) to add fields to the items. Or use WordPress filters to modify what information will be in every item.
 - You can select the base path for the _directory items_
 - You can create more than one directory by using taxonomies
 
@@ -45,7 +45,6 @@ Then you have to activate the plugin.
 
 ![Wordpress Plugin Directory and ACF activated](images/list-of-active-plugin.png)
 
-
 ### 2. (Optional) Create some custom fields
 
 If you activated the ACF plugin, this is the time to create a new group of fields.
@@ -56,8 +55,10 @@ Make sure that the **visible on post type** option includes `Custom Directory En
 
 As you can see from the image, we created two fields:
 
-- One for the `phone`
-- One for the work `address`
+- One for the work address called _Address_ and with the name `address`
+- One for the telephone called _Phone_ and with the name `phone`
+
+> The names are important.
 
 We'll be using the native `content` field for the _biography_ (more on the content field latter).
 
@@ -69,7 +70,7 @@ Go to the plugin's settings page and start the configuration.
 
 ![Empty settings page](images/empty-settings-page.png)
 
-### 4. Choose an slug or base path for the directory items
+### 4. (optional) Choose an slug or base path for the directory items
 
 Every directory entry will have the same _base path_. By the image above, you can see that the default _base path_ is is `directory-entry`.
 
@@ -79,7 +80,7 @@ With this option, you can change the part that says `directory-entry`
 
 > The `jhon-doe-profile` part can be changed directly in the _item edit page_
 
-For you example we'll be using `staff`.
+For our example we'll be using `staff`.
 
 ### 5. (optional) Change the sidebar link **name**
 
@@ -89,117 +90,32 @@ With this setting, you can change that name for something more familiar to your 
 
 In our example we'll use `Staff Information`.
 
-### 6. Remove the title of the single item page ?
+### 6. (optional) Remove the title of the single item page ?
 
 **This only works if you are using the genesis framework**
 
-This option will allow to remove the default title the _single item_ entry so you can place it somewhere else (like to the side or in a Gutemberg block)
+This option will allow to remove the default title the _single item_ entry so you can place it somewhere else (like to the side or in a Gutemberg block).
 
-### 7. Change the single item page layout
+> If you are using another type of template system, this setting wont have any effect.
+
+### 7. (optional) Change the single item page layout
 
 **This only works if you are using the genesis framework**
 
 Similar to the previous option, you can opt to remove the sidebar on the _single item_ pages.
 
-### 8. Templates
+> If you are using another type of template system, this setting wont have any effect.
 
-One of the strengths of the _Wordpress Custom Directory_ plugin is the ability to change how the directory items will be displayed on a list and individually.
+### 8. Create templates
 
-You achieve this flexibility by using html templates with some special codes that once parsed will show the information you specify exactly where and how you need it.
+You have to create at least 2 templates to work:
 
-You have to specify 3 templates:
+- The _single element_ template
+- The _list_ templates 
 
-- A template for the _single item_. So you can add or remove custom fields or change completely how an _entry item_ will look.
-- A template for each _item_ when they get displayed on a list by using the `[custom-directory-list]` shortcode.
-- The code for the search form that will be created by the `[custom-directory-search]` shortcode
+> This is not optional and deserves its own help section below.
 
-Both the _Single element template_ and the _List element template_ use the [Twig](https://twig.symfony.com/doc/3.x/) template system which has features like blocks and filters. So if you want to change a field to be uppercase, you could use the `uppercase` filter  like this:
-
-	{{title|uppercase}}
-
-Please read the Twig documentation of how to use blocks, conditionals and filters.
-
-***Note 1:** The search template does not uses Twig and its not possible to use variables.
-
-***Note 2:** Currently its not possible to create different templates for different directories.
-
-
-#### Single element template
-
-This will allow you to change how an _individual item page_ will be displayed.
-
-So in our example we might have an entry with the following data:
-
-- `Name`: John Doe
-- `Bio`: Our chief doctor
-- `phone`: 301432456
-- `address`: Leak Road, Miami
-
-> The last 2 are ACF fields
-
-We could create a template like this:
-
-	<h1>
-		{{title}}
-	</h1>
-
-
-	<div class="row">
-		<div class="col-sm-6">
-			{{address}}
-		</div>
-		<div class="col-sm-6">
-			{{phone}}
-		</div>
-	</div>
-
-	{{content}}
-
-You can see that we use the native `title` field for the name and the native field `content` for the biography.
-
-So when you go to the URL `https://mi-site-url.com/staff/john-doe` you'll get something like this:
-
-![Image of the single item on the frontend]()
-
-#### List element template
-
-In the same fashion as the _Single element template_ you can specify which fields of each item will appear in the directory.
-
-Just take into account that while the _Single element template_ should be designed for displaying the complete information of an item in a page by itself. The _List element template_ should be designed for displaying **all** the elements of the directory on a list.
-
-For our example, we'll use the following template.
-
-	<div class="row">
-		<div class="col-sm-4">
-			<img src="{{image}}" alt="Featured Image" />
-		</div>
-		<div class="col-sm-8">
-			<h3>
-				{{title}}
-			</h3>
-			{{excerpt}}
-			<div>
-				<a class="btn btn-primary" href="{{link}}">Read more</a>
-			</div>
-		</div>
-	</div>
-
-Which in the front-end will look like this.
-
-![Image of the list items]()
-
-#### Search form code
-
-The main idea behind the _Wordpress Custom Directory_ is to have a way to display a list or directory of items on a page and that **it can be searchable** in a easily manner.
-
-But since the plugin doesn't know by which fields the user is going to search, it's our job to specify them.
-
-So in this section you have to add the HTML corresponding to an HTML for where **the form fields names match the items fields names**.
-
-Also important to keep in mind: The fields that you use for the search **have to be included in the fields you display in the list**
-
-For our example we are showing only 2 fields: The `title` and the `excerpt`. So our search should be something like:
-
+If you are going to use live search on your list, you sould also create a 3rd template to specify how to search the elements.
 
 ## Content of your directory
 
@@ -218,43 +134,176 @@ To display your directory or list of items, go to `Custom Directory Entries > Di
 
 You just need to give it a name. But **is very important that you take note of the directory slug** since well need that when we start using the shortcodes.
 
-![Create the Directory "Site Doctors"](images/directory-site-doctors.png)
+![Create the Directory "Staff"](images/back-end-create-directory.png)
+
+In this example the directory will have the slug **staff**
 
 ### 2. Create Entries
 
 Go to `Custom Directory Entries > Custom Directory Entries` and start adding entries to your directory.
 
+![Editing an Item](images/back-end-single-item-content.png)
+
+
 **Remember to add each entry to the just created Directory** by selecting the correct checkbox on the _right_ sidebar in the editor page.
 
-## Create a directory page
+### 3. Create a directory page
 
-This is where all is put together!.
+** This is where all is put together!.**
 
 Got to `Pages > Add New` and create a normal page.
 
-In this page you need to place 2 shortcodes:
+In this page you need to place at least the shortcode `[custom-directory-list]` with the parammeter `directory`.
 
-1. The Search Shortcode
-2. The List or Items Shortcode.
-
-This could be something like:
-
-	<p>lorem ipsum dolor ... </p>
+	<p>This is our Staff</p>
 
 	<h2>Search the directory</h2>
-	[custom-directory-search slug="dir-slug"]
 
-	[custom-directory-list slug="dir-slug"]
+	[custom-directory-list directory="staff"]
 
+![Creating a page for the directory](images/back-end-directory-page.png)
 
 Here is very important that
 
-1. The directory slug (`dir-slug`) is the one that you copied in the _Directory Creation_ step
+1. The directory slug (`staff`) is the one that you copied in the _Directory Creation_ step
 2. The slug is the same in both cases
 
-The first shortcode will place the form you configured in Settings and the second shortcode will place the _list of items_ for the selected directory
+This would render something like:
 
-You should notice that the **search form** have the fields that you configured in the settings page and that the **list of items** have the fields you specified in the settings page but with the correct values for each _item_.
+![Custom directory with a 2 item list](images/front-end-directory-no-search.png)
+
+> You might not get the same result since we haven't looked at how to create the templates. That will be discussed in the next section
+
+## Templates
+
+One of the strengths of the _WordPress Custom Directory_ plugin is the ability to change how the directory items will be displayed on a list and individually.
+
+You achieve this flexibility by using html templates with some special codes that once parsed will show the information you specify exactly where and how you need it.
+
+You have to specify 3 templates:
+
+- A template for the _single item_. So you can add or remove custom fields or change completely how an _entry item_ will look.
+- A template for each _item_ when they get displayed on a list by using the `[custom-directory-list]` shortcode.
+- The code for the search form that will be created by the `[custom-directory-search]` shortcode
+
+Both the _Single element template_ and the _List element template_ use the [Twig](https://twig.symfony.com/doc/3.x/) template system which has features like blocks and filters. So if you want to change a field to be uppercase, you could use the `uppercase` filter like this:
+
+    {{title|uppercase}}
+
+Please read the Twig documentation of how to use blocks, conditionals and filters.
+
+- **Note 1:** The search template does not use Twig and its not possible to use variables.
+
+- **Note 2:** Currently its not possible to create different templates for different directories.
+
+### 1. Single element template
+
+This will allow you to change how an _individual item page_ will be displayed.
+
+So in our example we might have an entry with the following data:
+
+- `title`: John Doe
+- `content`: Our chief doctor
+- `phone`: 301432456
+- `address`: Leak Road, Miami
+
+> The last 2 are the ACF fields we created at the start of this tutorial
+
+We could create a template like this:
+
+	<div class="row">
+		<div class="col-8">
+			<h1>
+				{{title}}
+			</h1>
+		</div>
+		<div class="col-4">
+			<img src="{{image}}" 
+				 class="rounded-circle" alt="{{title}}"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			Address: {{address}}
+		</div>
+		<div class="col-6">
+			Phone: {{phone}}
+		</div>
+	</div>
+	<div class="row  justify-content-center">
+		<div class="col-8">
+			{{content}}
+		</div>	
+	</div>
+
+
+> For this tutorial I'm using a Bootstrap based theme. That's why I can use the `col-8` and `row` classes for `<div>` elements.
+
+![Creation of a single element template](images/template-single-item.png)
+
+You can see that we use the native `title` field for the name and the native field `content` for the biography.
+
+Now, If I create a _Directory Item_ with the following content
+
+![Directory Item Backend Edition](images/back-end-single-item.png)
+
+Then we could visit the URL `https://mi-site-url.com/staff/john-doe-title` and get something like this:
+
+![Image of the single item on the frontend](images/front-end-single-itme.png)
+
+Things to notice:
+
+- The `{{image}}` came from the _Featured Image_
+- The `{{title}}` is the post title
+- The biography came from the post `{{content}}` 
+- `phone` and `address` are the custom fields added at the beginning of this tutorial
+- The URL is created by WordPress from the title, but you can change it like any other page or post
+- After the field for _Single Item Template_ There is **a list of available fields** that you can use
+
+### 2. List element template
+
+In the same fashion as the _Single element template_ you can specify which fields of each item will appear in the directory.
+
+Just take into account that while the _Single element template_ should be designed for displaying the complete information of an item in a page by itself. The _List element template_ should be designed for displaying **all** the elements of the directory on a list.
+
+For our example, we'll use the following template.
+
+	<div class="row mb-5">
+		<div class="col-4">
+			<img src="{{image}}" 
+				 class="rounded-circle" alt="Doctor image"/>
+		</div>
+		<div class="col-6">
+			{{title}}
+		</div>
+		<div class="col-2 justify-content-right">
+			<a href="{{link}}" class="btn btn-primary">Bio</a>
+		</div>
+	</div>
+
+![List items template in the backend](images/back-end-list-template.png)
+
+Which in the front-end will look like this.
+
+![Image of the list items](images/front-end-directory-no-search.png)
+
+> We already saw this in the _Directory Creation_ section
+
+## Adding Search
+
+The main idea behind the _Wordpress Custom Directory_ is to have a way to display a list or directory of items on a page and that **it can be searchable** in a easily manner.
+
+But since the plugin doesn't know by which fields the user is going to search, it's our job to specify them.
+
+So in this section you have to add the HTML corresponding to an HTML for where **the form fields names match the items fields names**.
+
+Also important to keep in mind: The fields that you use for the search **have to be included in the fields you display in the list**
+
+For our example we are showing only 2 fields: The `title` and the `address`.
+
+### 1. Creating the templates
+
+### 2. Adding the shortcut to the directory page
 
 ## Using the directory
 
@@ -272,14 +321,12 @@ Each shortcode has its own set of parameters, but they all share in common that 
 
 For example:
 
-	[custom-directory-list directory="doctors"]
-	<div class="my-item">
-		Title: {{title}} <br />
-		Names: {{first_name}} {{last_name}}, {{credentials}}
-	</div>
-	[/custom-directory-list]
-
-
+    [custom-directory-list directory="doctors"]
+    <div class="my-item">
+    	Title: {{title}} <br />
+    	Names: {{first_name}} {{last_name}}, {{credentials}}
+    </div>
+    [/custom-directory-list]
 
 ### The `custom-directory-search` shortcode
 
@@ -306,23 +353,24 @@ How each item of the list will be displayed can be configured in the settings pa
 
 1. `directory` Allows you to select which directory to display.
 2. `order` Allows you to select by which fields the elements of the list will be ordered. Pe:
-	- `[custom-directory-list order="last_name"]`: Order by last name ascending
-	- `[custom-directory-list order="title ASC, first_name DESC"]`: Order by title ascending and then by first_name descending
+   - `[custom-directory-list order="last_name"]`: Order by last name ascending
+   - `[custom-directory-list order="title ASC, first_name DESC"]`: Order by title ascending and then by first_name descending
 3. `filter_key` and `filter_val` Allows you to _Filter Out_ elements of the list. Pe.
-	- `[custom-directory-list filter_key="last_name" filter_val="Yepes"]`: Only show records with last name equal to "Yepes"
-	- `[custom-directory-list filter_key="credentials" filter_val="MD.+"]`: Only show records where the credentials field STARTS with `MD`. NOTICE that the `filter_value` is a **regular expression**.
+   - `[custom-directory-list filter_key="last_name" filter_val="Yepes"]`: Only show records with last name equal to "Yepes"
+   - `[custom-directory-list filter_key="credentials" filter_val="MD.+"]`: Only show records where the credentials field STARTS with `MD`. NOTICE that the `filter_value` is a **regular expression**.
 4. `id` allows you to select the HTML ID attribute of the list.
 5. `class` allows you to select the HTML CLASS attribute of the list.
 
-### The  `custom-directory-item` shortcode
+### The `custom-directory-item` shortcode
 
 Allows you to place a directory item in **any** page.
 
 This shortcode is useful when you need to embed the content of an item on several places
 
-	[custom-directory-item slug="john-doe-doctor"]
+    [custom-directory-item slug="john-doe-doctor"]
 
 #### Parammeters
+
 This shortocode only requires either `slug` or `item` where:
 
 - `slug` is the slug created by WordPress (or modified by you ) when you create the item
@@ -331,7 +379,6 @@ This shortocode only requires either `slug` or `item` where:
 One very special thing about this shortcode is that if you do not provide any of those 2 parameters, the shortcode will try to recover them from the URL of the current page.
 
 So if you visit a page with this shortcode on the URL `https://my-blog.com/2020/02/my-blog-entry?slug=john-doe-doctor` then the shortcode will show the information of the item with slug `johon-doe-doctor`.
-
 
 ## Creating templates
 

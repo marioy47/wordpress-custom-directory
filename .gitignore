@@ -3,3 +3,4 @@
 /vendor/
 /*.zip
 languages/wp-custom-dir.pot
+deploy.sh
