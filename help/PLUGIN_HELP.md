@@ -117,9 +117,9 @@ You have to create at least 2 templates to work:
 
 If you are going to use live search on your list, you sould also create a 3rd template to specify how to search the elements.
 
-## Content of your directory
+## Create the Directory and its items
 
-The setup (previous step) allows you to configure how the items of your directory will be displayed on a list or in a single page. But you still need **add the content for you directory**.
+The setup (previous section) allows you to configure how the items of your directory will be displayed on a list or in a single page. But you still need **add the content for you directory**.
 
 This is a 2 step process:
 
@@ -136,7 +136,7 @@ You just need to give it a name. But **is very important that you take note of t
 
 ![Create the Directory "Staff"](images/back-end-create-directory.png)
 
-In this example the directory will have the slug **staff**
+In this example we just created one directory called **Staff** and it will have the slug **staff**
 
 ### 2. Create Entries
 
@@ -145,15 +145,17 @@ Go to `Custom Directory Entries > Custom Directory Entries` and start adding ent
 ![Editing an Item](images/back-end-single-item-content.png)
 
 
-**Remember to add each entry to the just created Directory** by selecting the correct checkbox on the _right_ sidebar in the editor page.
+The important thing to keep in mind is that an **item** is assigned to a **directory** by checking or selecting  selecting the **correct checkbox on the _right_ sidebar in the editor page**. And that an **item** can belong to **multiple directories**.
 
 ### 3. Create a directory page
 
 ** This is where all is put together!.**
 
-Got to `Pages > Add New` and create a normal page.
+Got to `Pages > Add New` and create a regular page.
 
 In this page you need to place at least the shortcode `[custom-directory-list]` with the parammeter `directory`.
+
+> We'll talk more about the shortcodes in an section below.
 
 	<p>This is our Staff</p>
 
@@ -163,10 +165,7 @@ In this page you need to place at least the shortcode `[custom-directory-list]` 
 
 ![Creating a page for the directory](images/back-end-directory-page.png)
 
-Here is very important that
-
-1. The directory slug (`staff`) is the one that you copied in the _Directory Creation_ step
-2. The slug is the same in both cases
+Here is very important to point out that the `directory` attribute points to the **slug** of the directory we just created.
 
 This would render something like:
 
@@ -186,7 +185,11 @@ You have to specify 3 templates:
 - A template for each _item_ when they get displayed on a list by using the `[custom-directory-list]` shortcode.
 - The code for the search form that will be created by the `[custom-directory-search]` shortcode
 
-Both the _Single element template_ and the _List element template_ use the [Twig](https://twig.symfony.com/doc/3.x/) template system which has features like blocks and filters. So if you want to change a field to be uppercase, you could use the `uppercase` filter like this:
+The **List** and **Single item** templates uses the [Twig engine](https://twig.symfony.com/) which is very similar to [Liquid](https://shopify.github.io/liquid/) but in several ways more powerful.
+
+The gist of it all is that any code enclosed in `{{` and `}}` will be assumed to be a variable and it will be replaced at runtime. Also, you can use filters for each item by using the `|` character.
+
+So if you want to change a field to be uppercase, you could use the `uppercase` filter like this:
 
     {{title|uppercase}}
 
@@ -202,10 +205,10 @@ This will allow you to change how an _individual item page_ will be displayed.
 
 So in our example we might have an entry with the following data:
 
-- `title`: John Doe
-- `content`: Our chief doctor
+- `title`: John Doe Title
+- `content`: This is the BIO of John Doe
 - `phone`: 301432456
-- `address`: Leak Road, Miami
+- `address`: 4321 New York Road, FL
 
 > The last 2 are the ACF fields we created at the start of this tutorial
 
@@ -241,7 +244,9 @@ We could create a template like this:
 
 ![Creation of a single element template](images/template-single-item.png)
 
-You can see that we use the native `title` field for the name and the native field `content` for the biography.
+You can see that we use the native `{{title}}` field for the name and the native field `{{content}}` for the biography. Also, I'm using `{{image}}` to embed the _Featured Image_ URL.
+
+> The list of available fields is at the bottom of the textarea.
 
 Now, If I create a _Directory Item_ with the following content
 
@@ -262,7 +267,7 @@ Things to notice:
 
 ### 2. List element template
 
-In the same fashion as the _Single element template_ you can specify which fields of each item will appear in the directory.
+In the same fashion as the _Single element template_ you can specify which fields of each item will appear in the directory list.
 
 Just take into account that while the _Single element template_ should be designed for displaying the complete information of an item in a page by itself. The _List element template_ should be designed for displaying **all** the elements of the directory on a list.
 
@@ -291,9 +296,9 @@ Which in the front-end will look like this.
 
 ## Adding Search
 
-The main idea behind the _Wordpress Custom Directory_ is to have a way to display a list or directory of items on a page and that **it can be searchable** in a easily manner.
+The main idea behind the _Wordpress Custom Directory_ is to have a way to display a list or directory of items on a page and that **it can be searchable** in a simple manner.
 
-But since the plugin doesn't know by which fields the user is going to search, it's our job to specify them.
+But since the plugin doesn't know by which fields the user is going to search, it's our job to specify those fields.
 
 So in this section you have to add the HTML corresponding to an HTML for where **the form fields names match the items fields names**.
 
@@ -301,15 +306,55 @@ Also important to keep in mind: The fields that you use for the search **have to
 
 For our example we are showing only 2 fields: The `title` and the `address`.
 
-### 1. Creating the templates
+### 1. Creating the search form
+
+At the end of the settings page, you have to provide the HTML required to display a search form.
+
+The imortant things to address here are:
+
+- You should NOT provider the opening and closing tag for the form: `<form>` and `</form>`
+- You can use any input field type, but the better supported are `<input>` and `<select>`
+- If you want to search by a field, for instance, by `title`, you have to include that field in the **Template List**
+
+
+	<div class="row">
+		<div class="col-md-6">
+			<input type="text" name="first_name" placeholder="First Name" />		
+		</div>
+		<div class="col-md-6">
+			<input type="text" name="last_name" placeholder="First Name" />		
+		</div>
+	</div>
+
+> In this example, the select input won't work since that field WAS NOT included in the **List Template**
+
+![Search Template](images/back-end-search-template.png)
 
 ### 2. Adding the shortcut to the directory page
+
+Finally, we have to include that search form in the **page where we already added the `[custom-directory-list]` shortcode**.
+
+So just add the `[custom-directory-search]` shortcode with the **same directory attribute**. In our case `staff`:
+
+	<p>This is our Staff</p>
+
+	<h2>Search the directory</h2>
+
+	[custom-directory-search directory="staff"]
+
+	[custom-directory-list directory="staff"]
+
+![Adding the shortcode to the list page](images/front-end-search-shortcode.png)
+
+And you'll get something like this:
+
+![Search results after adding the shortcode](images/front-end-search-results.png)
 
 ## Using the directory
 
 Just start typing in one of the search fields in the directory and confirm that the items that do not match are hidden.
 
-## Shortcode parameters
+## Shortcodes
 
 The plugin provides 3 shortcodes:
 
@@ -317,24 +362,26 @@ The plugin provides 3 shortcodes:
 2. `[custom-directory-list]`
 3. `[custom-directory-item]`
 
-Each shortcode has its own set of parameters, but they all share in common that you can **override the template by adding content** to the shortcode.
+Each shortcode has its own set of parameters, but they all share in common that you can **override the template by adding content to the shortcode**.
 
 For example:
 
-    [custom-directory-list directory="doctors"]
+    [custom-directory-list directory="staff"]
     <div class="my-item">
     	Title: {{title}} <br />
     	Names: {{first_name}} {{last_name}}, {{credentials}}
     </div>
     [/custom-directory-list]
 
+This is specially useful if you are using multiple directories since you can only specify one set off templates on the Settings page.
+
 ### The `custom-directory-search` shortcode
 
 This shortocode places a search form in a page that allows you to do a live search.
 
-**This shortocode does not places the list of items**
+> This shortocode does not places the list of items
 
-The content of this search form is configured in the _Settings_ page on the section that says `Search form code`
+The content of this search form is configured in the _Settings_ page on the section that says `Search form code` or by passing content to the shortcode as explained a second ago.
 
 #### Parammeters
 
@@ -343,11 +390,12 @@ This shortcode receives 2 parameters:
 1. `id` to select the HTML ID attribute of the form
 2. `directory` to select on which directory make the search. This is specially important when you want to place multiple directories in a single page.
 
+
 ### The `custom-directory-list` shortcode
 
 This plugin places a list of items on a page.
 
-How each item of the list will be displayed can be configured in the settings page by adding content to the `List element template`
+How each item of the list will be displayed can be configured in the settings page by adding content to the `List element template` or by passing content to the shortcode as explained a second ago.
 
 #### Parammeters
 
@@ -355,7 +403,8 @@ How each item of the list will be displayed can be configured in the settings pa
 2. `order` Allows you to select by which fields the elements of the list will be ordered. Pe:
    - `[custom-directory-list order="last_name"]`: Order by last name ascending
    - `[custom-directory-list order="title ASC, first_name DESC"]`: Order by title ascending and then by first_name descending
-3. `filter_key` and `filter_val` Allows you to _Filter Out_ elements of the list. Pe.
+   - By default it orders by `menu_order ASC` and then by `date DESC`.
+3. `filter_key` and `filter_val` Allows you to _Filter Out_ elements of the list. Useful to show a limited set or records on multiple pages. Pe:
    - `[custom-directory-list filter_key="last_name" filter_val="Yepes"]`: Only show records with last name equal to "Yepes"
    - `[custom-directory-list filter_key="credentials" filter_val="MD.+"]`: Only show records where the credentials field STARTS with `MD`. NOTICE that the `filter_value` is a **regular expression**.
 4. `id` allows you to select the HTML ID attribute of the list.
@@ -380,12 +429,3 @@ One very special thing about this shortcode is that if you do not provide any of
 
 So if you visit a page with this shortcode on the URL `https://my-blog.com/2020/02/my-blog-entry?slug=john-doe-doctor` then the shortcode will show the information of the item with slug `johon-doe-doctor`.
 
-## Creating templates
-
-The templates uses the [Twig engine](https://twig.symfony.com/) which is very similar to [Liquid](https://shopify.github.io/liquid/) but in several ways more powerful.
-
-Please refer to the Twig documentation on how to use it.
-
-But the gist of it all is that any code enclosed in `{{` and `}}` will be assumed to be a variable and it will be replaced at runtime.
-
-![Adding an image](images/locaitons-key.png)
