@@ -300,39 +300,52 @@ The main idea behind the _Wordpress Custom Directory_ is to have a way to displa
 
 But since the plugin doesn't know by which fields the user is going to search, it's our job to specify those fields.
 
-So in this section you have to add the HTML corresponding to an HTML for where **the form fields names match the items fields names**.
+So in this section you have to add the code corresponding to an HTML form where **the form fields names match the items fields names**. 
 
-Also important to keep in mind: The fields that you use for the search **have to be included in the fields you display in the list**
+So, in our example we have _Custom Field_ called `phone` and another one called `address`. This means that we could add a field in the form with the **name** of `phone` and another with the **name** `address` and the options be a list of possible addresses:
 
-For our example we are showing only 2 fields: The `title` and the `address`.
+	<input name="phone" type="text" placeholder="123456">
+	<select name="address">
+		<option value="4321 New York Rad, NY">New York</option>
+		<option value="1234 Washington Av, WA">Washington</option>
+	</select>
+
+Also important to keep in mind: 
+
+- The fields that you use for the search **have to be included in the fields you display in the list**
+- You should **not** provider the opening and closing tag for the form: `<form>` and `</form>`
+- You can use any input field type, but the better supported are `<input>` and `<select>`
+- The search uses regular expresions
 
 ### 1. Creating the search form
 
-At the end of the settings page, you have to provide the HTML required to display a search form.
+At the end of the Settings Page, you have to provide the HTML required to display a search form.
 
-The imortant things to address here are:
-
-- You should NOT provider the opening and closing tag for the form: `<form>` and `</form>`
-- You can use any input field type, but the better supported are `<input>` and `<select>`
-- If you want to search by a field, for instance, by `title`, you have to include that field in the **Template List**
-
+For this example we are showing only 2 fields: The `title` and the `address`.
 
 	<div class="row">
-		<div class="col-md-6">
-			<input type="text" name="first_name" placeholder="First Name" />		
+		<div class="col-md-6 form-group">
+			<label for="title">Names</label>
+			<input type="text" name="title" placeholder="Names" class="form-control"/>		
 		</div>
-		<div class="col-md-6">
-			<input type="text" name="last_name" placeholder="First Name" />		
+		<div class="col-md-6 form-group">
+			<label for="address">Address</label>
+			<select name="address" class="form-control">
+				<option></option>
+				<option value="1234 Miami Road, FL">1234 Miami Road, FL</option>
+				<option value="4321 New York Road, NY">4321 New York Road, NY</option>
+			</select>
 		</div>
 	</div>
 
+![Search Template](images/back-end-search-template.png)
+
 > In this example, the select input won't work since that field WAS NOT included in the **List Template**
 
-![Search Template](images/back-end-search-template.png)
 
 ### 2. Adding the shortcut to the directory page
 
-Finally, we have to include that search form in the **page where we already added the `[custom-directory-list]` shortcode**.
+Then we have to include that search form in the **page where we already added the `[custom-directory-list]` shortcode**.
 
 So just add the `[custom-directory-search]` shortcode with the **same directory attribute**. In our case `staff`:
 
@@ -350,7 +363,7 @@ And you'll get something like this:
 
 ![Search results after adding the shortcode](images/front-end-search-results.png)
 
-## Using the directory
+## 3. Using the directory
 
 Just start typing in one of the search fields in the directory and confirm that the items that do not match are hidden.
 
