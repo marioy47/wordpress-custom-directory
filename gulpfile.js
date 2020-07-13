@@ -13,26 +13,27 @@ const zip = require('gulp-zip');
 function scripts() {
 	const webpackConfig = require('./webpack.config.js');
 	webpackConfig.watch = process.env.NODE_ENV == 'production' ? false : true;
-	return gulp.src('.')
-		.pipe(webpack(webpackConfig))
-		.pipe(gulp.dest('js/'));
+	return gulp.src('.').pipe(webpack(webpackConfig)).pipe(gulp.dest('js/'));
 }
 
 /**
  * Creates a zip file of the plugin.
  */
 function compress() {
-	return gulp.src([
-		'classes/**',
-		'help/**',
-		'js/**',
-		'languages/*',
-		'PLUGIN_HELP.md',
-		'vendor/**',
-		'wordpress-custom-directory.php'
-	], { base: '../' })
+	return gulp
+		.src(
+			[
+				'classes/**',
+				'help/**',
+				'js/**',
+				'languages/*',
+				'vendor/**',
+				'wordpress-custom-directory.php',
+			],
+			{ base: '../' }
+		)
 		.pipe(zip('wordpress-custom-directory.zip'))
-		.pipe(gulp.dest('./'))
+		.pipe(gulp.dest('./'));
 }
 
 /**
@@ -44,7 +45,7 @@ function composerInstall() {
 		return composer('dump-autoload -o', { async: false });
 	} else {
 		composer('install', { async: false });
-		return composer('dump-autoload', { async: false })
+		return composer('dump-autoload', { async: false });
 	}
 }
 
@@ -54,18 +55,20 @@ function composerInstall() {
 function clean() {
 	composer('install');
 	composer('dump-autoload');
-	return del(['js/', 'css/', '*.zip'])
+	return del(['js/', 'css/', '*.zip']);
 }
 
 function potCreate() {
-	return gulp.src(['wordpress-custom-directory.php', 'classes/*.php'])
-		.pipe(wpPot({
-			domain: 'wp-custom-dir',
-			package: 'Wordpress_Custom_Dir'
-		}))
+	return gulp
+		.src(['wordpress-custom-directory.php', 'classes/*.php'])
+		.pipe(
+			wpPot({
+				domain: 'wp-custom-dir',
+				package: 'Wordpress_Custom_Dir',
+			})
+		)
 		.pipe(gulp.dest('languages/wp-custom-dir.pot'));
 }
-
 
 /**
  * Exportes tasks.

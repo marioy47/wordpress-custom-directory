@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WordPress Custom Directory Plugin
  *
@@ -11,7 +12,7 @@
  * Plugin Name:       WordPress Custom Directory
  * Plugin URI:        https://marioyepes.com
  * Description:       Creates a searcheable directory of people, elements, or anythig a  custom type can be.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Requires at least: 5.0
  * Requires PHP:      7.0
  * Author:            Mario Yepes
@@ -28,8 +29,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// For javascript and css file enqueueing.
-define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.0.0' );
+// For javascript and css file enqueueing. Must match the coments "Version"
+define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.1.0' );
+
+// Some variables for easy update/upgrade/customize
 $plugin_slug         = 'wordpress-custom-directory';
 $post_type_name      = 'directory_entry';
 $taxonomy_name       = 'directory_tax';
@@ -92,4 +95,3 @@ Shortcode_Custom_Directory_Item::factory()
 	->set_query_vars_prefix( $query_var_prefix )
 	->set_post_type( $post_type_name )
 	->start();
-
