@@ -1,15 +1,16 @@
-
+/**
+ * Function that does the actual filtering
+ */
 const filterListItems = (listItems, formValues) => {
-
 	// Precompile the regular expresions.
 	const regexps = {};
 	for (const key in formValues) {
-		regexps[key] = new RegExp(formValues[key].toLowerCase().trim().replace(/\s+/, ".+"), 'i');
+		regexps[key] = new RegExp(formValues[key].toLowerCase().trim().replace(/\s+/, '.+'), 'i');
 	}
+	console.log(regexps);
 
 	// Loop trough each list item searching matches
 	listItems.forEach(item => {
-
 		let showItem = true;
 
 		// Loop for each form item looking for matches in the item.
@@ -29,6 +30,6 @@ const filterListItems = (listItems, formValues) => {
 			item.classList.remove('search-no-match');
 		}
 	});
-}
+};
 
 export default filterListItems;

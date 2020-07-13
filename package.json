@@ -8,7 +8,8 @@
 		"build": "cross-env NODE_ENV=production gulp build",
 		"compress": "cross-env NODE_ENV=production gulp compress",
 		"clean": "gulp clean",
-		"pot": "gulp pot"
+		"pot": "gulp pot",
+		"lint": "eslint src/js/**/*.js"
 	},
 	"repository": {
 		"type": "git",
@@ -25,10 +26,14 @@
 		"babel-loader": "^8.0.6",
 		"cross-env": "^7.0.0",
 		"del": "^5.1.0",
+		"eslint": "^7.4.0",
+		"eslint-config-prettier": "^6.11.0",
+		"eslint-plugin-prettier": "^3.1.4",
 		"gulp": "^4.0.2",
 		"gulp-composer": "^0.4.5",
 		"gulp-wp-pot": "^2.3.6",
 		"gulp-zip": "^5.0.1",
+		"prettier": "^2.0.5",
 		"webpack": "^4.41.5",
 		"webpack-cli": "^3.3.10",
 		"webpack-stream": "^5.2.1"
