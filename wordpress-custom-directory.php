@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WordPress Custom Directory Plugin
  *
@@ -29,10 +28,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// For javascript and css file enqueueing. Must match the coments "Version"
+// For javascript and css file enqueueing. Must match the coments "Version".
 define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.1.0' );
 
-// Some variables for easy update/upgrade/customize
+// Some variables for easy update/upgrade/customize.
 $plugin_slug         = 'wordpress-custom-directory';
 $post_type_name      = 'directory_entry';
 $taxonomy_name       = 'directory_tax';

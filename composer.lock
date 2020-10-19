@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7410427a30a85bedc8b94a9ea83f6b3",
+    "content-hash": "9035fa1f2eef95e1ff3cf842037ce1d8",
     "packages": [
         {
             "name": "michelf/php-markdown",
@@ -301,6 +301,48 @@
                 "tests"
             ],
             "time": "2018-10-26T13:21:45+00:00"
+        },
+        {
+            "name": "paulthewalton/acf-stubs",
+            "version": "5.8.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paulthewalton/acf-stubs.git",
+                "reference": "722096c127186c41ac98395b418195d1db9cf576"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paulthewalton/acf-stubs/zipball/722096c127186c41ac98395b418195d1db9cf576",
+                "reference": "722096c127186c41ac98395b418195d1db9cf576",
+                "shasum": ""
+            },
+            "require-dev": {
+                "ext-gettext": "*",
+                "giacocorsiglia/stubs-generator": "^0.5.0",
+                "giacocorsiglia/wordpress-stubs": "*",
+                "php": "^7.1",
+                "wpackagist-plugin/advanced-custom-fields": "5.8.7"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Walton",
+                    "email": "pwalton@live.ca",
+                    "role": "copycat"
+                }
+            ],
+            "description": "Based on giacocorsiglia/wordpress-stubs. Advanced Custom Fields function, class, and global variable declaration stubs for easier static analysis.",
+            "keywords": [
+                "acf",
+                "advanced custom fields",
+                "static analysis",
+                "wordpress"
+            ],
+            "time": "2019-12-04T19:26:53+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -613,5 +655,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

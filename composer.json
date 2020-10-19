@@ -18,7 +18,8 @@
 		"phpcompatibility/php-compatibility": "*",
 		"phpcompatibility/phpcompatibility-wp": "*",
 		"sirbrillig/phpcs-variable-analysis": "*",
-		"wp-coding-standards/wpcs": "*"
+		"wp-coding-standards/wpcs": "*",
+		"paulthewalton/acf-stubs": "*"
 	},
 	"scripts": {
 		"install-codestandards": [

@@ -246,7 +246,7 @@ class Shortcode_Custom_Directory_List {
 	 * Adds to $this->getQueryParams the filter options
 	 *
 	 * @param string $key Name of the field to filter by.
-	 * @param string $val Value that neds to have to be filred
+	 * @param string $val Value that neds to have to be filred.
 	 * @return self
 	 */
 	public function add_query_filter( $key, $val ): self {
@@ -287,7 +287,7 @@ class Shortcode_Custom_Directory_List {
 		}
 
 		// Los campos nativos de WP no necesitan meta_query.
-		if ( in_array( $key, array( 'menu_order', 'title', 'content', 'date', 'rand' ) ) ) {
+		if ( in_array( $key, array( 'menu_order', 'title', 'content', 'date', 'rand' ), true ) ) {
 			$this->query_params['orderby'][ $key ] = $direction;
 		} elseif ( ! array_key_exists( $key . '_clause', $this->query_params['meta_query'] ) ) {
 			$this->query_params['meta_query'][ $key . '_clause' ] = array(
