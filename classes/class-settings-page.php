@@ -248,7 +248,7 @@ class Settings_Page {
 EOJ;
 
 		$this->template_fields_help = '<p class="description">' . __( 'You can use the following template items:', 'wp-custom-dir' ) . '<br />';
-		foreach ( array( 'title', 'excerpt', 'content', 'image', 'link', 'author' ) as $element ) {
+		foreach ( array( 'title', 'excerpt', 'content', 'image', 'link', 'author', 'thumb' ) as $element ) {
 			$this->template_fields_help .= '<code style="font-size: 80%">{{' . $element . '}}</code> ';
 		}
 		$this->template_fields_help .= '</p>';
@@ -263,6 +263,8 @@ EOJ;
 					$this->template_fields_help      .= '<code style="font-size: 80%">{{' . $field['name'] . '}}</code> ';
 				}
 			}
+		} else {
+			$this->template_fields_help .= __( 'ACF plugin is not installed', 'wp-custom-dir' );
 		}
 		$this->template_fields_help .= '</p>';
 
