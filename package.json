@@ -33,9 +33,19 @@
 		"gulp-composer": "^0.4.5",
 		"gulp-wp-pot": "^2.3.6",
 		"gulp-zip": "^5.0.1",
+		"husky": "^4.3.0",
+		"lint-staged": "^10.4.2",
 		"prettier": "^2.0.5",
 		"webpack": "^4.41.5",
 		"webpack-cli": "^3.3.10",
 		"webpack-stream": "^5.2.1"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"*.js": "eslint --cache --fix"
 	}
 }

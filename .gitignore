@@ -1,6 +1,7 @@
+.eslintcache
+/*.zip
 /js/
 /node_modules/
 /vendor/
-/*.zip
-languages/wp-custom-dir.pot
 deploy.sh
+languages/wp-custom-dir.pot
