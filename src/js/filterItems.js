@@ -1,5 +1,9 @@
+/* eslint-disable no-console */
 /**
  * Function that does the actual filtering
+ *
+ * @param {Array} listItems Array of elements to filter out.
+ * @param {Object} formValues Contents of the form so we can filter.
  */
 const filterListItems = (listItems, formValues) => {
 	// Precompile the regular expresions.
@@ -15,7 +19,7 @@ const filterListItems = (listItems, formValues) => {
 
 		// Loop for each form item looking for matches in the item.
 		for (const key in regexps) {
-			if ('undefined' == item.searchFields[key]) continue;
+			if ('undefined' === item.searchFields[key]) continue;
 			if (!regexps[key].test(item.searchFields[key])) {
 				showItem = showItem && false;
 			}

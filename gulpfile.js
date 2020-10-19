@@ -3,6 +3,7 @@
 const composer = require('gulp-composer');
 const del = require('del');
 const gulp = require('gulp');
+const path = require('path');
 const webpack = require('webpack-stream');
 const wpPot = require('gulp-wp-pot');
 const zip = require('gulp-zip');
@@ -12,52 +13,26 @@ const zip = require('gulp-zip');
  */
 function scripts() {
 	const webpackConfig = require('./webpack.config.js');
-	webpackConfig.watch = process.env.NODE_ENV == 'production' ? false : true;
+	webpackConfig.watch = process.env.NODE_ENV === 'production' ? false : true;
 	return gulp.src('.').pipe(webpack(webpackConfig)).pipe(gulp.dest('js/'));
-}
-
-/**
- * Creates a zip file of the plugin.
- */
-function compress() {
-	return gulp
-		.src(
-			[
-				'classes/**',
-				'help/**',
-				'js/**',
-				'languages/*',
-				'vendor/**',
-				'wordpress-custom-directory.php',
-			],
-			{ base: '../' }
-		)
-		.pipe(zip('wordpress-custom-directory.zip'))
-		.pipe(gulp.dest('./'));
 }
 
 /**
  * Executes composer on prod or dev dpending on the NODE_ENV status.
  */
-function composerInstall() {
-	if (process.env.NODE_ENV == 'production') {
+function phpComposer() {
+	if (process.env.NODE_ENV === 'production') {
 		composer('install --no-dev', { async: false });
 		return composer('dump-autoload -o', { async: false });
-	} else {
-		composer('install', { async: false });
-		return composer('dump-autoload', { async: false });
 	}
+
+	composer('install', { async: false });
+	return composer('dump-autoload', { async: false });
 }
 
 /**
- * Removes compiled files and any cache that exits.
+ * Extract the strings from the PHP files and create the pot file in languages/
  */
-function clean() {
-	composer('install');
-	composer('dump-autoload');
-	return del(['js/', 'css/', '*.zip']);
-}
-
 function potCreate() {
 	return gulp
 		.src(['wordpress-custom-directory.php', 'classes/*.php'])
@@ -71,13 +46,28 @@ function potCreate() {
 }
 
 /**
+ * Removes compiled files and any cache that exits.
+ */
+function clean() {
+	composer('install');
+	composer('dump-autoload');
+	return del(['js/', 'css/', '*.zip']);
+}
+
+/**
+ * Creates a zip file of the plugin.
+ */
+function compress() {
+	const filename = path.dirname(__dirname);
+	return gulp
+		.src(['classes/**', 'help/**', 'js/**', 'languages/*', 'vendor/**', '*.php'], { base: '../' })
+		.pipe(zip(filename + '.zip'))
+		.pipe(gulp.dest('./'));
+}
+
+/**
  * Exportes tasks.
  */
-exports.build = gulp.series(clean, scripts, potCreate, composerInstall);
-exports.clean = clean;
-exports.compress = gulp.series(clean, scripts, potCreate, composerInstall, compress);
-exports.php = composerInstall;
-exports.pot = gulp.series(potCreate);
-exports.scripts = scripts;
-exports.watch = gulp.series(scripts);
-exports.zip = compress;
+exports.build = gulp.series(clean, scripts, potCreate, phpComposer);
+exports.watch = gulp.series(phpComposer, scripts);
+exports.zip = gulp.series(clean, scripts, potCreate, phpComposer, compress);

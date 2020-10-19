@@ -4,12 +4,11 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "gulp watch",
 		"build": "cross-env NODE_ENV=production gulp build",
-		"compress": "cross-env NODE_ENV=production gulp compress",
-		"clean": "gulp clean",
-		"pot": "gulp pot",
-		"lint": "eslint src/js/**/*.js"
+		"lint": "eslint src/js/**/*.js",
+		"lint:fix": "eslint --fix src/js/**/*.js",
+		"start": "gulp watch",
+		"zip": "cross-env NODE_ENV=production gulp compress"
 	},
 	"repository": {
 		"type": "git",
@@ -23,6 +22,7 @@
 		"@babel/cli": "^7.7.7",
 		"@babel/core": "^7.7.7",
 		"@babel/preset-env": "^7.7.7",
+		"@wordpress/eslint-plugin": "^7.3.0",
 		"babel-loader": "^8.0.6",
 		"cross-env": "^7.0.0",
 		"del": "^5.1.0",

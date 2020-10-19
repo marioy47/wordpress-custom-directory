@@ -39,8 +39,6 @@
 		"zip": "TDIR=`basename $PWD` && cd ../ && zip -r ${TDIR}/${TDIR}.zip ${TDIR}/{classes,help,js,languages,vendor,*.php}"
 	},
 	"autoload": {
-		"psr-4": {
-			"WpCustomDir\\": "app/"
-		}
+		"classmap": [ "classes/" ]
 	}
 }

@@ -5,13 +5,12 @@
 		"commonjs": true,
         "es2020": true
     },
-    "extends": [ "eslint:recommended", "plugin:prettier/recommended"],
+    "extends": [ "eslint:recommended", "plugin:@wordpress/eslint-plugin/recommended"],
     "parserOptions": {
         "ecmaVersion": 11,
         "sourceType": "module"
     },
     "rules": {
-		"prettier/prettier": ["warn"],
-		"no-console": "warn"
+		"prettier/prettier": ["warn"]
     }
 }

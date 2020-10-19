@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import filterItems from './filterItems';
 import debounce from './debounce';
 (d => {
@@ -11,7 +12,7 @@ import debounce from './debounce';
 				listItem.querySelectorAll('.search-item').forEach(span => {
 					searchFields[span.dataset.field] = span.innerHTML;
 				});
-				listItem['searchFields'] = searchFields;
+				listItem.searchFields = searchFields;
 				directoryItems.push(listItem);
 			});
 
