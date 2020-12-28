@@ -3,6 +3,7 @@
 WordPress directory to create a list of "things" in WordPress.
 
 A list of things can be
+
 - A list of people
 - A list of machine parts
 - A list of products (Although WooCommerce is better for that use case)
@@ -20,11 +21,11 @@ The 2 main shortcodes allows you to display the list on any page and to add a _L
 
 ## Help
 
-You can refer to the [Online Help](help/PLUGIN_HELP.md) inside the plugin by accesing  the path `Custom Directory > Help`
+You can refer to the [Online Help](help/PLUGIN_HELP.md) inside the plugin by accesing the path `Custom Directory > Help`
 
 ## Development
 
-You need to have installed `node` with `npm`, `php` as a command-line app and [`composer`](https://getcomposer.com)  globally.
+You need to have installed `node` with `npm`, `php` as a command-line app and [`composer`](https://getcomposer.com) globally.
 
 ```bash
 cd /path/to/wordpress/wp-content/plugins/
@@ -39,6 +40,8 @@ npm start # Optional
 The last command is required if you are going to change the `js` files. Otherwise you don't need the `watch` activated.
 
 ## Deployment
+
+This are the steps to create a WordPress `.zip` file or copying it to a server:
 
 ### Create a ZIP file
 
