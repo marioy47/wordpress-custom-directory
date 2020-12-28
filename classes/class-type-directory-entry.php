@@ -248,6 +248,9 @@ class Type_Directory_Entry {
 	 * @return self
 	 */
 	public function change_layout(): self {
+		if ( get_post_type() !== $this->post_type ) {
+			return $this;
+		}
 		$layout = $this->options['change_layout'];
 		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_' . $layout );
 		add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_' . $layout );
