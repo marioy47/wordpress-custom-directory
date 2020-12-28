@@ -225,6 +225,9 @@ class Type_Directory_Entry {
 	 * @return self
 	 */
 	public function remove_title(): self {
+		if ( get_post_type() !== $this->post_type ) {
+			return $this;
+		}
 		// remove title.
 		remove_action( 'genesis_post_title', 'genesis_do_post_title' );
 		remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
