@@ -11,7 +11,7 @@
  * Plugin Name:       WordPress Custom Directory
  * Plugin URI:        https://marioyepes.com
  * Description:       Creates a searcheable directory of people, elements, or anythig a  custom type can be.
- * Version:           1.1.1
+ * Version:           1.1.2
  * Requires at least: 5.0
  * Requires PHP:      7.0
  * Author:            Mario Yepes
@@ -28,8 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// For javascript and css file enqueueing. Must match the coments "Version".
-define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.1.0' );
+// Keep this in sync wit the  "Version" field in the comments of this file.
+define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.1.2' );
 
 // Some variables for easy update/upgrade/customize.
 $plugin_slug         = 'wordpress-custom-directory';
@@ -40,7 +40,6 @@ $shortcode_form_name = 'custom-directory-search';
 $shortcode_item_name = 'custom-directory-item';
 $query_var_prefix    = 'custom-dir-';
 
-require_once __DIR__ . '/classes/autoload.php';
 require_once __DIR__ . '/vendor/autoload.php';
 
 // Add links to the plugin list.
@@ -75,7 +74,7 @@ Type_Directory_Tax::factory()
 	->set_taxonomy( $taxonomy_name )
 	->start();
 
-// Shortcoce for creating  a list of items.
+// Shortcode for creating  a list of items.
 Shortcode_Custom_Directory_List::factory()
 	->set_post_type( $post_type_name )
 	->set_taxonomy( $taxonomy_name )
@@ -88,7 +87,7 @@ Shortcode_Custom_Directory_Search::factory()
 	->set_plugin_file( __FILE__ )
 	->start();
 
-// Shortcode for showing in item embeded in a page.
+// Shortcode for showing an item embeded in a page.
 Shortcode_Custom_Directory_Item::factory()
 	->set_shortcode_name( $shortcode_item_name )
 	->set_query_vars_prefix( $query_var_prefix )

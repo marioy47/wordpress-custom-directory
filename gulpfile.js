@@ -58,16 +58,19 @@ function clean() {
  * Creates a zip file of the plugin.
  */
 function compress() {
-	const filename = path.dirname(__dirname);
+	const filename = path.basename(__dirname) + '.zip';
 	return gulp
 		.src(['classes/**', 'help/**', 'js/**', 'languages/*', 'vendor/**', '*.php'], { base: '../' })
-		.pipe(zip(filename + '.zip'))
+		.pipe(zip(filename))
 		.pipe(gulp.dest('./'));
 }
 
 /**
  * Exportes tasks.
  */
+exports.compress = compress;
+exports.clean = clean;
+
 exports.build = gulp.series(clean, scripts, potCreate, phpComposer);
 exports.watch = gulp.series(phpComposer, scripts);
 exports.zip = gulp.series(clean, scripts, potCreate, phpComposer, compress);

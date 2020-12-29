@@ -75,7 +75,7 @@ class Shortcode_Custom_Directory_Item {
 		);
 
 		if ( empty( $atts['item'] ) && empty( $atts['slug'] ) ) {
-			return __( 'You have to provide a slug or an id for the content to be diplayed', 'wp-custom-dir' );
+			return __( 'You have to provide a slug or an id for the custom content to be displayed', 'wp-custom-dir' );
 		}
 
 		// Get the post to be displayed.
