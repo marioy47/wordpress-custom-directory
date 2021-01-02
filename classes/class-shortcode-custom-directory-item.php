@@ -103,11 +103,12 @@ class Shortcode_Custom_Directory_Item {
 
 		// TODO: Move this to a central lib since its the same as the render post function.
 		$params = array(
-			'content' => $post->post_content,
-			'title'   => $post->post_title,
-			'excerpt' => get_the_excerpt( $post->ID ),
-			'link'    => get_the_permalink( $post->ID ),
-			'image'   => get_the_post_thumbnail_url( $post->ID ),
+			'title'     => $post->post_title,
+			'excerpt'   => get_the_excerpt( $post->ID ),
+			'content'   => $post->post_content,
+			'link'      => get_the_permalink( $post->ID ),
+			'image'     => get_the_post_thumbnail( $post->ID, 'large' ),
+			'image_url' => get_the_post_thumbnail_url( $post->ID, 'large' ),
 		);
 		if ( function_exists( 'get_fields' ) ) {
 			$fields = (array) get_fields( get_the_ID() );

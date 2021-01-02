@@ -90,7 +90,7 @@ class Settings_Page {
 	public function register_fields(): self {
 		register_setting( $this->plugin_slug, $this->options_name );
 
-		// Mis options.
+		// Misc options.
 		$current_section = 'misc-options';
 		add_settings_section(
 			$current_section,
@@ -165,7 +165,7 @@ class Settings_Page {
 	 * @return self
 	 */
 	public function section_misc_options(): self {
-		esc_html_e( 'Options that changes the directory behaviour', 'wp-custom-dir' );
+		esc_html_e( 'Options that change the directory behaviour', 'wp-custom-dir' );
 		return $this;
 	}
 
@@ -234,7 +234,7 @@ class Settings_Page {
 	 * phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
 	 */
 	public function section_templates(): self {
-		echo '<p>' . esc_html__( 'Please browse the help (link at the to) on how templates work and how to use them', 'wp-custom-dir' ) . '</p>';
+		echo '<p>' . esc_html__( 'Please browse the help (link at the top) on how templates work and how to use them', 'wp-custom-dir' ) . '</p>';
 
 		// Initialize code morror for the template fields.
 		echo <<<EOJ
@@ -248,7 +248,7 @@ class Settings_Page {
 EOJ;
 
 		$this->template_fields_help = '<p class="description">' . __( 'You can use the following template items:', 'wp-custom-dir' ) . '<br />';
-		foreach ( array( 'title', 'excerpt', 'content', 'image', 'link', 'author', 'thumb' ) as $element ) {
+		foreach ( array( 'title', 'excerpt', 'content', 'link', 'image', 'image_url' ) as $element ) {
 			$this->template_fields_help .= '<code style="font-size: 80%">{{' . $element . '}}</code> ';
 		}
 		$this->template_fields_help .= '</p>';
