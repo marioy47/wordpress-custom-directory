@@ -11,7 +11,7 @@
  * Plugin Name:       WordPress Custom Directory
  * Plugin URI:        https://marioyepes.com
  * Description:       Creates a searcheable directory of people, elements, or anythig a  custom type can be.
- * Version:           1.2.0
+ * Version:           1.2.1
  * Requires at least: 5.0
  * Requires PHP:      7.0
  * Author:            Mario Yepes
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Keep this in sync wit the  "Version" field in the comments of this file.
-define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.2.0' );
+define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.2.1' );
 
 // Some variables for easy update/upgrade/customize.
 $plugin_slug         = 'wordpress-custom-directory';
