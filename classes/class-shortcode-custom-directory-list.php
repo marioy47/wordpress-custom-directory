@@ -88,7 +88,9 @@ class Shortcode_Custom_Directory_List {
 			$this->add_query_filter( trim( $atts['filter_key'] ), trim( $atts['filter_val'] ) );
 		}
 
-		$this->add_query_tax( $atts['directory'] );
+		if ( ! empty( $atts['directory'] ) ) {
+			$this->add_query_tax( $atts['directory'] );
+		}
 
 		$query = new \WP_Query( $this->get_query_params() );
 
