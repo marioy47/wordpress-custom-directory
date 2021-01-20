@@ -39,20 +39,18 @@ npm start # Optional
 
 The last command is required if you are going to change the `js` files. Otherwise you don't need the `watch` activated.
 
-## Deployment
+## NPM commands
 
-This are the steps to create a WordPress `.zip` file or copying it to a server:
+- `npm run build`: Cleans the environment, reinstalls composer packages, rebuilds the `.pot` translations template file and compiles the `.js` files
+- `npm run lint` and `npm run lint:fix`: Finds and fixes lint errors on `.js` files
+- `npm start` o `npm run watch`: Starts a development environment:
+  - Install development dependencies (development composer packages)
+  - Watches for changes in `src/js` files and compiles them in real time
+- `npm run zip`: Creates an instllable wordpress `.zip` plugin file
 
-### Create a ZIP file
+Take into account that the project uses `husky` to find and fix lint errors before commiting any code.
 
-```bash
-npm run build
-composer zip
-composer install
-composer dump-autoload
-```
-
-### Secure Copy to server
+## Script to deploy on a remote server
 
 ```bash
 #!/bin/bash

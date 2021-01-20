@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Keep this in sync wit the  "Version" field in the comments of this file.
-define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.2.1' );
+define( 'WP_CUSTOM_DIRECTORY_VERSION', '1.2.3' );
 
 // Some variables for easy update/upgrade/customize.
 $plugin_slug         = 'wordpress-custom-directory';
