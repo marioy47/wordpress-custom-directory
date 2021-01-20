@@ -112,7 +112,11 @@ class Shortcode_Custom_Directory_List {
 			if ( function_exists( 'get_fields' ) ) {
 				$fields = (array) get_fields( $post_id );
 				foreach ( $fields as $name => $value ) {
-					$params[ $name ] = '<span class="search-item" data-field="' . $name . '">' . $value . '</span>';
+					if ( is_array( $value ) && 'image' === $value['type'] ) {
+						$params[ $name ] = $value['url'];
+					} else {
+						$params[ $name ] = '<span class="search-item" data-field="' . $name . '">' . $value . '</span>';
+					}
 				}
 			}
 
